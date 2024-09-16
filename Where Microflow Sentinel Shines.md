@@ -1,15 +1,16 @@
 ![logo](https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/github_microflow.png)
 
-![functions](https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/microflow_function_B.png)
+
 
 # Where Microflow Sentinel Shines
 
 **Feather-weight Probe. Heavy-weight Security.**
 
 
-
 In this document, we will briefly introduce the highlight applications of microflow Sentinel in the direction of cloud security, data security, observability/PM, and zero trust, which we believe will make your eyes shine.
 
+
+![functions](https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/microflow_function_B.png)
 
 
 ## 📠 Attack Context in SOC/XDR/AISEC Cloud Environment
