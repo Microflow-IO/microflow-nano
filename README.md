@@ -31,7 +31,7 @@
 
 ## 🎯 Use Cases
 
-![function](https://github.com/Microflow-IO/microflow.sentinel/blob/main/microflow_function_B.png)
+![function](microflow_function_B.png)
 
 [More details](https://github.com/Microflow-IO/microflow.sentinel/blob/main/Where%20Microflow%20Sentinel%20Shines.md)
 
