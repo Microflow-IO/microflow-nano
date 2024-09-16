@@ -1,6 +1,6 @@
 <img src="https://github.com/Microflow-IO/microflow.sentinel/blob/main/github_microflow.png" alt="logo" style="float:left; margin-right:10px;" />
 
-
+![functions](https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/microflow_function_B.png)
 
 # Where Microflow Sentinel Shines
 
