@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/github_microflow.png?raw=true" alt="logo" style="float:left; margin-right:10px;" />
+<img src="https://github.com/Microflow-IO/microflow.sentinel/blob/main/github_microflow.png" alt="logo" style="float:left; margin-right:10px;" />
 
 
 
@@ -31,9 +31,9 @@
 
 ## 🎯 Use Cases
 
-![function](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/microflow_function_W.png?raw=true)
+![function](https://github.com/Microflow-IO/microflow.sentinel/blob/main/microflow_function_B.png)
 
-[More details](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/56fdb420d6b9afc0e089533ad05fa0735d72d28c/Where%20Microflow%20Sentinel%20Shines.md)
+[More details](https://github.com/Microflow-IO/microflow.sentinel/blob/main/Where%20Microflow%20Sentinel%20Shines.md)
 
 ## 🚦 Get Started in 3 Steps
 
