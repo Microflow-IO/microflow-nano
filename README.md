@@ -1,5 +1,7 @@
 ![logo](https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/github_microflow.png)
 
+<img src="https://raw.githubusercontent.com/Microflow-IO/microflow.sentinel/main/github_microflow.png" alt="logo" style="float:left; margin-right:10px;" />
+
 
 
 # Microflow Sentinel
