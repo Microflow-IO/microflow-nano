@@ -1,7 +1,7 @@
 #!/bin/bash
 
 microflowPath="/usr/local/bin/microflow"
-downloadUrl="https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/"
+downloadUrl="http://stu.jxit.net.cn:88/uniprobe/microflow"
 
 echo "******check microflow exsist******"
 if [ -e "$microflowPath" ]; then
