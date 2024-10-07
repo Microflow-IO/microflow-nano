@@ -103,7 +103,7 @@ function runColl() {
     echo -n "\"message-type\":            \"proc\","                               >> $jsonfile
     echo -n "\"message\":                 \"$(hostname)\""                         >> $jsonfile
     echo -n "}"                                                                    >> $jsonfile
-    timeout 1 $upexec -p $expdomain $jsonfile
+    timeout 1 $microflowWorker -p $expdomain $jsonfile
   done
 }
 
@@ -149,7 +149,7 @@ while true; do
   runColl;
   haveWorker=$(ps aux | grep microflow-worker | grep -v grep)
   if [ -z "$haveWorker" ]; then
-    $workerexec @$microflowConfFile
+    $microflowWorker @$microflowConfFile
   fi
   sleep 10
 done
