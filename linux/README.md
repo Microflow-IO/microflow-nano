@@ -1,80 +1,80 @@
-# 公有云部署
+# Public Cloud Deployment
 
-使用下面命令一键在线安装
+Use the following command for one-click online installation:
 
 ```bash
 curl https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/mfs-install.sh | bash -x
 ```
 
-会将mfs安装到/usr/local/bin目录
+This will install `mfs` in the `/usr/local/bin` directory:
 
 ```bash
 [root@racknerd-b20bda0 linux]# ls -al /usr/local/bin/
 -rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfs
 ```
 
-使用在线配置文件将探针连接到http://218.16.178.146:9000/数据平台，用户名/密码：admin/admin@123
+Connect the probe to the data platform at `http://218.16.178.146:9000/` using the online configuration file, with the username/password: `admin/admin@123`:
 
 ```bash
 mfs https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/linux/mfs.conf
 ```
 
-探针会自动下载配置文件，并保存到/etc/mfs
+The probe will automatically download the configuration file and save it to `/etc/mfs`:
 
 ```bash
 [root@racknerd-b20bda0 linux]# ls -al /etc/mfs/
 -rw-r--r--.  1 root root  491 Oct  9 04:13 mfs-url.conf
 ```
 
-也可以手动修改上面配置文件，根据自己需求运行，修改完毕后用如下命令运行
+You can also manually edit the above configuration file as per your needs. After making changes, run it with the following command:
 
 ```bash
 [root@racknerd-b20bda0 linux]# mfs /etc/mfs/mfs-url.conf
 ```
 
-配置文件内容解释如下
+Explanation of the configuration file contents:
 
 ```bash
-# 值为1会自动检查应用层协议
+# Set to 1 for automatic application-layer protocol checking
 auto-check=1
-# 使用base64编码导出JSON流量日志
+# Export traffic logs in JSON format using base64 encoding
 base64=
-# 监听网卡名，any为全部
+# Network interface to monitor, "any" monitors all interfaces
 device=any
 filter-net=
 l4-switch=net
-# 本地存放JSON格式流量日志路径
+# Path to store traffic logs in JSON format
 json-path=
-# 本地存放JSON格式每个流量日志文件总大小，单位为MB（必须大于110），每个文件固定50MB
+# Maximum size of each JSON log file in MB (must be greater than 110), fixed at 50MB per file
 json-size=
-# 本地存放原始数据包路径
+# Path to store raw packet data
 pcap-path=
-# 本地存放每个原始数据包文件总大小，单位为MB（必须大于110）
+# Total size of each raw packet file in MB (must be greater than 110)
 pcap-size=
-# 本地存放每个原始数据包文件大小，单位为MB（必须大于110）
+# Size of each raw packet file in MB (must be greater than 110)
 pcap-file-size=
-# BPF抓包过滤条件
+# BPF capture filter
 filter-bpf=
-# 数据包捕获长度
+# Maximum packet capture length
 max-length=
 proto=
-# 监控主机TOPN进程，不要写太大，每个进程会每分钟发送一次
+# Monitor TOPN processes on the host, avoid setting this too high, as each process sends data once per minute
 proclist=2
 source=
 bytecode=
 play=
 forward=
-# 监控主机TOPN进程，不要写太大，每个进程会每分钟发送一次
+# Monitoring interval for TOPN processes on the host, avoid setting this too high
 interval=10
-# 应用层解析请求体响应体最大长度
+# Maximum length of application-layer request/response body parsing
 bodylen=1024
 license=
 jsonsample=
 ignorel7=
-# 值为1，流量日志加密发送
+# Set to 1 to encrypt the traffic log data sent
 encrypt=
 forward-ip=
-# 下面字段不要修改
+# Do not modify the fields below
 exp-domain=218.16.178.146:12201
 graylog=218.16.178.146:9000
 token=dahvtggeh3v048k20dpsnlcfcadc0haogcs9afoluup5o2o9j95
@@ -82,5 +82,5 @@ drop=218.16.178.146:9000
 probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
-
 ```
+
