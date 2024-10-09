@@ -8,11 +8,11 @@ mfsConfParamFile="$1"
 mfsConfUrlFile="$mfsConfDir/mfs-url.conf"
 mfsConfTmpFile="/tmp/mfs-tmp.conf"
 mfsWorker="/usr/local/bin/mfs-worker"
-mfsVersion="20241006-45-$($mfsWorker -k)"
 
 rm -rf $mfsWorker
 tail -n +177 $0 > $mfsWorker
 chmod 755 $mfsWorker
+mfsVersion="20241006-45-$($mfsWorker -k)"
 
 function runColl() {
   topfile="/tmp/top.txt"
