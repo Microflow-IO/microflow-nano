@@ -16,7 +16,7 @@ This will install `mfs` in the `/usr/local/bin` directory:
 Connect the probe to the data platform at `http://graylog.jxit.net.cn:9000/` using the online configuration file, with the username/password: `admin/admin@123`:
 
 ```bash
-mfs https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/linux/mfs.conf
+nohup mfs https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/linux/mfs.conf &
 ```
 
 The probe will automatically download the configuration file and save it to `/etc/mfs`:
