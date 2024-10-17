@@ -13,7 +13,7 @@ This will install `mfs` in the `/usr/local/bin` directory:
 -rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfs
 ```
 
-Connect the probe to the data platform at `http://218.16.178.146:9000/` using the online configuration file, with the username/password: `admin/admin@123`:
+Connect the probe to the data platform at `http://graylog.jxit.net.cn:9000/` using the online configuration file, with the username/password: `admin/admin@123`:
 
 ```bash
 mfs https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/linux/mfs.conf
@@ -75,10 +75,10 @@ ignorel7=
 encrypt=
 forward-ip=
 # Do not modify the fields below
-exp-domain=218.16.178.146:12201
-graylog=218.16.178.146:9000
+exp-domain=graylog.jxit.net.cn:12201
+graylog=graylog.jxit.net.cn:9000
 token=dahvtggeh3v048k20dpsnlcfcadc0haogcs9afoluup5o2o9j95
-drop=218.16.178.146:9000
+drop=graylog.jxit.net.cn:9000
 probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
