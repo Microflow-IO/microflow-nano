@@ -78,7 +78,6 @@ forward-ip=
 exp-domain=graylog.jxit.net.cn:12201
 graylog=graylog.jxit.net.cn:9000
 token=dahvtggeh3v048k20dpsnlcfcadc0haogcs9afoluup5o2o9j95
-drop=graylog.jxit.net.cn:9000
 probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
