@@ -145,7 +145,7 @@ function processConfUrlFile() {
 
 function heartToGraylog() {
   heartjson="/tmp/graylog-heart.json"
-  graylog=$(cat $1 | grep graylog | grep -v grep | awk -F "=" '{print $2}')
+  graylog=$(cat $1 | grep "graylog=" | grep -v grep | awk -F "=" '{print $2}')
   token=$(cat $1 | grep token | grep -v grep | awk -F "=" '{print $2}')
   heartdata="{\"node_name\":\"$localIP-$hostname\", \"node_details\": {\"operating_system\":\"Linux\",\"ip\":\"$graylog\"}}"
   echo $heartdata > $heartjson
