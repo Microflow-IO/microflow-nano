@@ -1,0 +1,181 @@
+#!/bin/bash
+
+logfile="/var/log/mfs.log"
+strtoday=$(date +%Y%m%d-%H:%M:%S)
+
+mfsConfDir="/etc/mfs"
+mfsConfParamFile="$1"
+mfsConfUrlFile="$mfsConfDir/mfs-url.conf"
+mfsConfTmpFile="/tmp/mfs-tmp.conf"
+mfsWorker="/usr/local/bin/mfs-worker"
+
+while [ -n "$(ps -ef | grep mfs | grep -v sh | grep -v grep)" ]; do
+  ps -ef | grep mfs | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
+  sleep 3
+done
+
+rm -rf $mfsWorker
+tail -n +182 $0 > $mfsWorker
+chmod 755 $mfsWorker
+mfsVersion="20241006-45-$($mfsWorker -k)"
+
+function runColl() {
+  topfile="/tmp/top.txt"
+  cpufile="/tmp/cpu.txt"
+  procfile="/tmp/proc.txt"
+  jsonfile="/tmp/json.txt"
+
+  expdomain=$(cat $1 | grep exp-domain | grep -v grep | awk -F "=" '{print $2}')
+  procparam=$(cat $1 | grep proclist | grep -v grep | awk -F "=" '{print $2}')
+  
+  top -b -n 2 | tail -n +7 | grep -A 1000000 "load" > $topfile
+  cat $topfile | sed -n 1,7"p" > $cpufile
+  cat $topfile | sed -n 8,1000000"p" > $procfile
+  
+  load=`cat $topfile | grep average | awk '{ print $(NF-2)}' | sed 's/,//g'`
+  cpu=`cat $topfile  | grep Cpu     | sed 's/%/ /g' | awk '{ print $2 + $4 }'`
+  cwa=`cat $topfile  | grep Cpu     | sed 's/%/ /g' | awk '{ print $10 }'`
+  
+  MemTotal=$(grep MemTotal /proc/meminfo | awk '{print$2}')
+  MemAvailable=$(grep MemAvailable /proc/meminfo | awk '{print$2}')
+  if [ -z "$MemAvailable" ]; then
+    MemAvailable=$(grep MemFree /proc/meminfo | awk '{print$2}')
+  fi
+  mem=`echo $MemAvailable $MemTotal | awk '{printf ("%.1f\n", ($2-$1)/$2*100)}'`
+  
+  memusage=`free -g  | grep Mem     | awk '{print $2-$7}'`
+  memtotal=`free -g  | grep Mem     | awk '{print $2+1}'`
+  cpucore=`cat /proc/cpuinfo | grep "processor" | wc -l`
+  
+  sysarch=`arch`
+  syskern=`uname -r`
+  sysinfo=`cat /etc/os-release | head -n 1 | sed "s/\"//g" | awk -F "=" '{print $2}'`
+  
+  if [ "wa" == "$cwa" ]; then
+    cwa=`cat $topfile  | grep Cpu     | sed 's/%/ /g' | awk '{ print $9 }'`
+  fi
+  
+  monprocfile="/tmp/monproc.txt"
+  if [ -n "$(echo $procparam | grep "^[[:digit:]]*$")" ]; then
+    cat $procfile | head -n $procparam | sed "s/[ ][ ]*/#/g" | sed "s/^#//g" > $monprocfile
+  else
+    grepstr="$(echo $procparam | sed "s/,/\\\|/g")"
+    cat $procfile | grep "$grepstr" | sed "s/[ ][ ]*/#/g" | sed "s/^#//g" > $monprocfile
+  fi
+  
+  use=$(df -BG | grep "^/dev" | sed "s/%//g" | sed "s/G//g" | awk '{sum+=$3} END {print sum}')
+  disktotal=$(df -BG | grep "^/dev" | sed "s/%//g" | sed "s/G//g" | awk '{sum+=$2} END {print sum}')
+  disk=$(echo $use $disktotal | awk '{OFMT="%.1f";print $1/$2*100}')
+  
+  # mfs-worker cpu and memory usage
+  scpu=`ps aux | grep mfs-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $3}'`
+  smem=`ps aux | grep mfs-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $4}'`
+  
+  if [ "$cpu" == "0" -o "$cpu" == "0.0" ]; then
+    cpu=0.1
+  fi
+  
+  proclist=$(cat $monprocfile)
+  for proc in $proclist; do
+    ppid=`echo $proc | awk -F "#" '{ print $1 }'`
+    psts=`echo $proc | awk -F "#" '{ print $8 }'`
+    pcpu=`echo $proc | awk -F "#" '{ print $9 }'`
+    pmem=`echo $proc | awk -F "#" '{ print $10 }'`
+    name=`echo $proc | awk -F "#" '{ print $12 }'`
+  
+    echo -n "{"                                                                    >  $jsonfile
+    echo -n "\"host\":                    \"$(hostname)\","                        >> $jsonfile
+    echo -n "\"host_name\":               \"$(hostname)\","                        >> $jsonfile
+    echo -n "\"host_cpu\":                \"$cpu\","                               >> $jsonfile
+    echo -n "\"host_cpu_core\":           \"$cpucore\","                           >> $jsonfile
+    echo -n "\"host_mem\":                \"$mem\","                               >> $jsonfile
+    echo -n "\"host_mem_usage\":          \"$memusage\","                          >> $jsonfile
+    echo -n "\"host_mem_total\":          \"$memtotal\","                          >> $jsonfile
+    echo -n "\"host_load\":               \"$load\","                              >> $jsonfile
+    echo -n "\"host_wa\":                 \"$cwa\","                               >> $jsonfile
+    echo -n "\"host_disk_use\":           \"$use\","                               >> $jsonfile
+    echo -n "\"host_disk_total\":         \"$disktotal\","                         >> $jsonfile
+    echo -n "\"host_disk\":               \"$disk\","                              >> $jsonfile
+    echo -n "\"proc_name\":               \"$name\","                              >> $jsonfile
+    echo -n "\"proc_pid\":                \"$ppid\","                              >> $jsonfile
+    echo -n "\"self_cpu\":                \"$scpu\","                              >> $jsonfile
+    echo -n "\"self_mem\":                \"$smem\","                              >> $jsonfile
+    echo -n "\"proc_cpu\":                \"$pcpu\","                              >> $jsonfile
+    echo -n "\"proc_mem\":                \"$pmem\","                              >> $jsonfile
+    echo -n "\"proc_sts\":                \"$psts\","                              >> $jsonfile
+    echo -n "\"probe_ver\":               \"$mfsVersion\","                        >> $jsonfile
+    echo -n "\"sys_info\":                \"$sysinfo-$sysarch\","                  >> $jsonfile
+    echo -n "\"gl2_source_collector\":    \"$localmac\","                          >> $jsonfile
+    echo -n "\"message-type\":            \"proc\","                               >> $jsonfile
+    echo -n "\"message\":                 \"$(hostname)\""                         >> $jsonfile
+    echo -n "}"                                                                    >> $jsonfile
+    timeout 1 $mfsWorker -p $expdomain $jsonfile
+  done
+}
+
+function getNetworkInfo() {
+  localnic=$(ip r | grep default | awk '{print $5}' | head -n 1)
+  export localIP=`ip  addr show $localnic | grep -w inet | grep -v 127.0.0.1 | head -n 1 | awk '{print $2}' | awk -F "/" '{print $1}'`
+  export hostname=`hostname`
+  hostnamemd5=`hostname | md5sum | cut -b 1,2`
+  localmac=`ip link show $localnic | grep ether | awk '{print $2}' | sed 's/://g' | sed 's/^/0x/g' | head -n 1`
+  export localmac=`printf %lu $localmac""$hostnamemd5`
+}
+
+function processConfUrlFile() {
+  if [ ! -f "$mfsConfUrlFile" ]; then
+    mkdir -p "$mfsConfDir" && touch "$mfsConfUrlFile"
+    echo "$strtoday: touch $mfsConfUrlFile file" >> $logfile
+  fi
+  curl -o $mfsConfTmpFile $mfsConfParamFile
+  havedevice=$(cat $mfsConfTmpFile | grep device | grep -v grep)
+  if [ $? -ne 0 -o -z "$havedevice" ]; then
+    echo "$strtoday: download $mfsConfTmpFile failed with $? or not have device" >> $logfile
+    return
+  fi
+  printf "probe-id=$localmac\n" >> $mfsConfTmpFile
+  printf "sys-version=$mfsVersion\n" >> $mfsConfTmpFile
+  printf "host-address=$localIP\n" >> $mfsConfTmpFile
+  diff $mfsConfTmpFile $mfsConfUrlFile
+  if [ $? -ne 0 ]; then
+    ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
+    cat $mfsConfTmpFile > $mfsConfUrlFile
+  fi
+}
+
+function heartToGraylog() {
+  heartjson="/tmp/graylog-heart.json"
+  graylog=$(cat $1 | grep graylog | grep -v grep | awk -F "=" '{print $2}')
+  token=$(cat $1 | grep token | grep -v grep | awk -F "=" '{print $2}')
+  heartdata="{\"node_name\":\"$localIP-$hostname\", \"node_details\": {\"operating_system\":\"Linux\",\"ip\":\"$graylog\"}}"
+  echo $heartdata > $heartjson
+  curl -s -H "Content-Type:application/json" -H "X-Graylog-Sidecar-Version:$mfsVersion" -H "X-Requested-By:1" -u "$token:token" -X PUT http://$graylog/api/sidecars/$localmac -d@$heartjson
+}
+
+getNetworkInfo;
+
+while true; do
+  mfsConfFinalFile=$mfsConfParamFile
+  isurl=$(echo $mfsConfParamFile | grep "http:\|https:" | grep -v grep)
+  if [ -n "$isurl" ]; then
+    processConfUrlFile;
+    mfsConfFinalFile=$mfsConfUrlFile
+  fi
+
+  if [ -z "$(cat $mfsConfFinalFile | grep probe-id | grep -v grep)" ]; then
+    printf "probe-id=$localmac\n" >> $mfsConfFinalFile
+    printf "sys-version=$mfsVersion\n" >> $mfsConfFinalFile
+    printf "host-address=$localIP\n" >> $mfsConfFinalFile
+  fi
+
+  runColl $mfsConfFinalFile;
+  heartToGraylog $mfsConfFinalFile;
+
+  haveworker=$(ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}')
+  if [ -z "$haveworker" ]; then
+    sleep 3
+    $mfsWorker @$mfsConfFinalFile > /dev/null 2>&1 &
+  fi
+  sleep 50
+done
+exit
