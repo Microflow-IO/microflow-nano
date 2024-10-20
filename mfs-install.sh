@@ -1,31 +1,36 @@
 #!/bin/bash
 
-microflowPath="/usr/local/bin/mfs"
+mfsPath="/usr/local/bin/mfs"
+confPath="/etc/mfs/mfs.conf"
 downloadUrl="http://stu.jxit.net.cn:88/uniprobe/mfs"
 
-echo "******check microflow exsist******"
-if [ -e "$microflowPath" ]; then
-  echo "******microflow exsits!******"
-  rm -f $microflowPath
+echo "******check mfs exsist******"
+if [ -e "$mfsPath" ]; then
+  echo "******mfs exsits!******"
+  rm -f $mfsPath
 fi
     
-echo "******kill microflow process******"
+echo "******kill mfs process******"
 ps -ef | grep mfs | grep -v grep | awk '{print $2}' | xargs kill -9  
 sleep 5
     
 echo "******download mfs software******"
 if [[ `arch` =~ "x86_64" ]]; then
   if [[ -n "`cat /etc/issue | grep 'CentOS\|Red Hat' | grep 6 | grep -v grep`" ]]; then
-    curl -o $microflowPath $downloadUrl/linux/mfs-x86-centos6
+    curl -o $mfsPath $downloadUrl/linux/mfs-x86-centos6
   else
-    curl -o $microflowPath $downloadUrl/linux/mfs-x86
+    curl -o $mfsPath $downloadUrl/linux/mfs-x86
   fi
 elif [[ `arch` =~ "aarch64" ]]; then
-  curl -o $microflowPath $downloadUrl/linux/mfs-arm
+  curl -o $mfsPath $downloadUrl/linux/mfs-arm
 else 
   echo "Have no version for this os-release, please connect whit the manager!"
   exit
 fi
 
-chmod +x $microflowPath
+echo "******download mfs conf file******"
+curl -o $confPath $downloadUrl/linux/mfs.conf
+echo "confurl=$downloadUrl/linux/mfs.conf" >> $confPath
+
+chmod +x $mfsPath
 
