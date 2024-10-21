@@ -40,7 +40,7 @@ nohup mfs /etc/mfs/mfs.conf &
 ```
 
 Use admin/admin@123 login http://graylog.jxit.net.cn:9000/ , Click System - Sidecars will see your mfs
-
+![image-20241021163128424](https://github.com/user-attachments/assets/cb959d1e-d593-430d-827d-27e430ea22bb)
 
 Explanation of the configuration file contents:
 
