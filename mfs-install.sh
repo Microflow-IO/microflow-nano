@@ -29,6 +29,7 @@ else
 fi
 
 echo "******download mfs conf file******"
+mkdir -p /etc/mfs
 curl -o $confPath $downloadUrl/linux/mfs.conf
 
 chmod +x $mfsPath
