@@ -152,7 +152,7 @@ getNetworkInfo;
 
 while true; do
   confurl=$(cat $mfsConfFile | grep confurl | grep "http:\|https:" | grep -v grep | awk -F "=" '{print $2}')
-  if [ -n "$confUrl" ]; then
+  if [ -n "$confurl" ]; then
     processConfUrlFile $confurl
   fi
 
