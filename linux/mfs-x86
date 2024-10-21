@@ -16,7 +16,7 @@ done
 rm -rf $mfsWorker
 tail -n +176 $0 > $mfsWorker
 chmod 755 $mfsWorker
-mfsVersion="20241021-45-$($mfsWorker -k)"
+mfsVersion="20241021-47-$($mfsWorker -k)"
 
 function runColl() {
   topfile="/tmp/top.txt"
