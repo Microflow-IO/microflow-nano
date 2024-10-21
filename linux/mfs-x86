@@ -3,10 +3,9 @@
 logfile="/var/log/mfs.log"
 strtoday=$(date +%Y%m%d-%H:%M:%S)
 
-mfsConfDir="/etc/mfs"
-mfsConfParamFile="$1"
-mfsConfUrlFile="$mfsConfDir/mfs-url.conf"
+mfsConfFile="$1"
 mfsConfTmpFile="/tmp/mfs-tmp.conf"
+mfsConfDir="/etc/mfs"
 mfsWorker="/usr/local/bin/mfs-worker"
 
 while [ -n "$(ps -ef | grep mfs | grep -v sh | grep -v grep)" ]; do
@@ -15,9 +14,9 @@ while [ -n "$(ps -ef | grep mfs | grep -v sh | grep -v grep)" ]; do
 done
 
 rm -rf $mfsWorker
-tail -n +182 $0 > $mfsWorker
+tail -n +176 $0 > $mfsWorker
 chmod 755 $mfsWorker
-mfsVersion="20241006-45-$($mfsWorker -k)"
+mfsVersion="20241021-45-$($mfsWorker -k)"
 
 function runColl() {
   topfile="/tmp/top.txt"
@@ -123,11 +122,8 @@ function getNetworkInfo() {
 }
 
 function processConfUrlFile() {
-  if [ ! -f "$mfsConfUrlFile" ]; then
-    mkdir -p "$mfsConfDir" && touch "$mfsConfUrlFile"
-    echo "$strtoday: touch $mfsConfUrlFile file" >> $logfile
-  fi
-  curl -o $mfsConfTmpFile $mfsConfParamFile
+  confurl=$1
+  curl -o $mfsConfTmpFile $confurl
   havedevice=$(cat $mfsConfTmpFile | grep device | grep -v grep)
   if [ $? -ne 0 -o -z "$havedevice" ]; then
     echo "$strtoday: download $mfsConfTmpFile failed with $? or not have device" >> $logfile
@@ -136,10 +132,10 @@ function processConfUrlFile() {
   printf "probe-id=$localmac\n" >> $mfsConfTmpFile
   printf "sys-version=$mfsVersion\n" >> $mfsConfTmpFile
   printf "host-address=$localIP\n" >> $mfsConfTmpFile
-  diff $mfsConfTmpFile $mfsConfUrlFile
+  diff $mfsConfTmpFile $mfsConfFile
   if [ $? -ne 0 ]; then
     ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
-    cat $mfsConfTmpFile > $mfsConfUrlFile
+    cat $mfsConfTmpFile > $mfsConfFile
   fi
 }
 
@@ -155,26 +151,24 @@ function heartToGraylog() {
 getNetworkInfo;
 
 while true; do
-  mfsConfFinalFile=$mfsConfParamFile
-  isurl=$(echo $mfsConfParamFile | grep "http:\|https:" | grep -v grep)
-  if [ -n "$isurl" ]; then
-    processConfUrlFile;
-    mfsConfFinalFile=$mfsConfUrlFile
+  confurl=$(cat $mfsConfFile | grep confurl | grep "http:\|https:" | grep -v grep | awk -F "=" '{print $2}')
+  if [ -n "$confUrl" ]; then
+    processConfUrlFile $confurl
   fi
 
-  if [ -z "$(cat $mfsConfFinalFile | grep probe-id | grep -v grep)" ]; then
-    printf "probe-id=$localmac\n" >> $mfsConfFinalFile
-    printf "sys-version=$mfsVersion\n" >> $mfsConfFinalFile
-    printf "host-address=$localIP\n" >> $mfsConfFinalFile
+  if [ -z "$(cat $mfsConfFile | grep probe-id | grep -v grep)" ]; then
+    printf "probe-id=$localmac\n" >> $mfsConfFile
+    printf "sys-version=$mfsVersion\n" >> $mfsConfFile
+    printf "host-address=$localIP\n" >> $mfsConfFile
   fi
 
-  runColl $mfsConfFinalFile;
-  heartToGraylog $mfsConfFinalFile;
+  runColl $mfsConfFile;
+  heartToGraylog $mfsConfFile;
 
   haveworker=$(ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}')
   if [ -z "$haveworker" ]; then
     sleep 3
-    $mfsWorker @$mfsConfFinalFile > /dev/null 2>&1 &
+    $mfsWorker @$mfsConfFile > /dev/null 2>&1 &
   fi
   sleep 50
 done
