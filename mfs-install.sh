@@ -30,7 +30,6 @@ fi
 
 echo "******download mfs conf file******"
 curl -o $confPath $downloadUrl/linux/mfs.conf
-echo "confurl=$downloadUrl/linux/mfs.conf" >> $confPath
 
 chmod +x $mfsPath
 
