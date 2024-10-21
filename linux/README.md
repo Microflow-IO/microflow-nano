@@ -1,36 +1,46 @@
 # Public Cloud Deployment
 
-Use the following command for one-click online installation:
+Use the following command for one-click online installation
 
 ```bash
 curl https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/mfs-install.sh | bash -x
 ```
 
-This will install `mfs` in the `/usr/local/bin` directory:
+This will install `mfs` in the `/usr/local/bin` directory and create configure file /etc/mfs/mfs.conf
 
 ```bash
-[root@racknerd-b20bda0 linux]# ls -al /usr/local/bin/
+root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
 -rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfs
+root@VM-16-2-ubuntu:~# ls -al /etc/mfs/
+-rw-r--r--   1 root root  493 Oct 21 16:09 mfs.conf
 ```
 
-Connect the probe to the data platform at `http://graylog.jxit.net.cn:9000/` using the online configuration file, with the username/password: `admin/admin@123`:
+Some important configure option as follows, other is end of document:
+
+- device:  capture packet NIC, any is all
+- exp-domain:  send json result use UDP to graylog
+- graylog  token:  login to graylog web interface
+- confurl：remote configure file mfs will sync real-time
+- license:  need an license code after running 3 months
 
 ```bash
-nohup mfs https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/linux/mfs.conf &
+root@VM-16-2-ubuntu:~# cat /etc/mfs/mfs.conf 
+device=any
+exp-domain=graylog.jxit.net.cn:12201
+graylog=graylog.jxit.net.cn:9000
+token=gf3gh7ogcuf1v4ntpd89ec9fvq6oeu20qebpe99ie61pbs94n1g
+license=
+confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 ```
 
-The probe will automatically download the configuration file and save it to `/etc/mfs`:
+Use this configure file start mfs, it will connect to graylog platform`http://graylog.jxit.net.cn:9000/` 
 
 ```bash
-[root@racknerd-b20bda0 linux]# ls -al /etc/mfs/
--rw-r--r--.  1 root root  491 Oct  9 04:13 mfs-url.conf
+nohup mfs /etc/mfs/mfs.conf &
 ```
 
-You can also manually edit the above configuration file as per your needs. After making changes, run it with the following command:
+Use admin/admin@123 login http://graylog.jxit.net.cn:9000/ , Click System - Sidecars will see your mfs
 
-```bash
-[root@racknerd-b20bda0 linux]# mfs /etc/mfs/mfs-url.conf
-```
 
 Explanation of the configuration file contents:
 
@@ -74,6 +84,7 @@ ignorel7=
 # Set to 1 to encrypt the traffic log data sent
 encrypt=
 forward-ip=
+confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 # Do not modify the fields below
 exp-domain=graylog.jxit.net.cn:12201
 graylog=graylog.jxit.net.cn:9000
@@ -82,4 +93,3 @@ probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
 ```
-
