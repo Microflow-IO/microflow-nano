@@ -26,17 +26,17 @@ Some important configure option as follows, other is end of document:
 ```bash
 root@VM-16-2-ubuntu:~# cat /etc/mfs/mfs.conf 
 device=any
-exp-domain=graylog.jxit.net.cn:12201
-graylog=graylog.jxit.net.cn:9000
-token=gf3gh7ogcuf1v4ntpd89ec9fvq6oeu20qebpe99ie61pbs94n1g
+exp-domain=demo.microflow.io:12201
+graylog=demo.microflow.io:9000
+token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
 license=
 confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 ```
 
-Use this configure file start mfs, it will connect to graylog platform`http://graylog.jxit.net.cn:9000/` 
+Use this configure file start mfs, it will connect to graylog platform`http://demo.microflow.io:9000/` 
 
 ```bash
-nohup mfs /etc/mfs/mfs.conf &
+nohup mfs /etc/mfs/mfs.conf > /dev/null 2>&1 &
 ```
 
 Use admin/admin@123 login http://graylog.jxit.net.cn:9000/ , Click System - Sidecars will see your mfs
@@ -86,9 +86,9 @@ encrypt=
 forward-ip=
 confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 # Do not modify the fields below
-exp-domain=graylog.jxit.net.cn:12201
-graylog=graylog.jxit.net.cn:9000
-token=dahvtggeh3v048k20dpsnlcfcadc0haogcs9afoluup5o2o9j95
+exp-domain=demo.microflow.io:12201
+graylog=demo.microflow.io:9000
+token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
 probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
