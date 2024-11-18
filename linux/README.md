@@ -26,8 +26,12 @@ root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
 -rwxr-xr-x.  1 root root  1408113 Oct  9 04:12 mfs-worker
 ```
 
-Mfs will create `/etc/mfs/mfs-conf.sh`, script will execute it to get configure for worker
+Mfs will create `/etc/mfs/mfs-conf.sh`
+
+script will execute it to get configure for worker
+
 you can edit this file to get configure from your own server
+
 by default get configure from http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 
 ```bash
@@ -45,6 +49,7 @@ token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
 license=
 ...
 ```
+
 Some important configure option as follows, other is end of document:
 
 - device:  capture packet NIC, any is all
