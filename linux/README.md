@@ -6,45 +6,54 @@ Use the following command for one-click online installation
 curl https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/mfs-install.sh | bash -x
 ```
 
-This will install `mfs` in the `/usr/local/bin` directory and create configure file /etc/mfs/mfs.conf
+This will install `mfs` in the `/usr/local/bin` directory, it is script program
 
 ```bash
 root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
 -rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfs
-root@VM-16-2-ubuntu:~# ls -al /etc/mfs/
--rw-r--r--   1 root root  493 Oct 21 16:09 mfs.conf
 ```
 
-Some important configure option as follows, other is end of document:
+Start mfs
 
-- device:  capture packet NIC, any is all
-- exp-domain:  send json result use UDP to graylog
-- graylog  token:  login to graylog web interface
-- confurl：remote configure file mfs will sync real-time
-- license:  need an license code after running 3 months
+```bash
+nohup /usr/local/bin/mfs > /dev/null 2>&1 &
+```
+
+Mfs will create `/usr/local/bin/mfs-worker`, it is worker program
+
+```bash
+root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
+-rwxr-xr-x.  1 root root  1408113 Oct  9 04:12 mfs-worker
+```
+
+Mfs will create `/etc/mfs/mfs-conf.sh` script will use it get configure for worker, you can edit this file to get configure from your server, by default get configure from http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+
+```bash
+[root@ecs-2d16-0001 uniprobe]# cat /etc/mfs/mfs-conf.sh 
+curl -s http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+```
+
+Configure will save to /etc/mfs/mfs.conf
 
 ```bash
 root@VM-16-2-ubuntu:~# cat /etc/mfs/mfs.conf 
 device=any
 exp-domain=demo.microflow.io:12201
-graylog=demo.microflow.io:9000
 token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
 license=
-confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+...
 ```
+Some important configure option as follows, other is end of document:
 
-Use this configure file start mfs, it will connect to graylog platform`http://demo.microflow.io:9000/` 
-
-```bash
-nohup mfs /etc/mfs/mfs.conf > /dev/null 2>&1 &
-```
-
-Use admin/admin@123 login http://demo.microflow.io:9000/ , Click System - Sidecars will see your mfs
-![image-20241021163128424](https://github.com/user-attachments/assets/cb959d1e-d593-430d-827d-27e430ea22bb)
+- device:  capture packet NIC, any is all
+- exp-domain:  send json result use UDP GELF format
+- license:  need an license code after running 3 months
 
 Explanation of the configuration file contents:
 
 ```bash
+# send json result use UDP GELF format
+exp-domain=demo.microflow.io:12201
 # Set to 1 for automatic application-layer protocol checking
 auto-check=1
 # Export traffic logs in JSON format using base64 encoding
@@ -84,11 +93,7 @@ ignorel7=
 # Set to 1 to encrypt the traffic log data sent
 encrypt=
 forward-ip=
-confurl=http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 # Do not modify the fields below
-exp-domain=demo.microflow.io:12201
-graylog=demo.microflow.io:9000
-token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
 probe-id=24447682964177
 sys-version=20241006-45-972
 host-address=198.46.233.196
