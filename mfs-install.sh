@@ -1,7 +1,6 @@
 #!/bin/bash
 
 mfsPath="/usr/local/bin/mfs"
-confPath="/etc/mfs/mfs.conf"
 downloadUrl="http://stu.jxit.net.cn:88/uniprobe/mfs"
 
 echo "******check mfs exsist******"
@@ -28,9 +27,4 @@ else
   exit
 fi
 
-echo "******download mfs conf file******"
-mkdir -p /etc/mfs
-curl -o $confPath $downloadUrl/linux/mfs.conf
-
 chmod +x $mfsPath
-

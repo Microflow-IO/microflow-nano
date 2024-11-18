@@ -1,31 +1,40 @@
 #!/bin/bash
 
-logfile="/var/log/mfs.log"
-strtoday=$(date +%Y%m%d-%H:%M:%S)
+uncompress="/tmp/worker.tar.gz"
+upexec="/usr/local/bin/mfs-worker"
+version="20241110-88-$($upexec -k)"
 
-mfsConfFile="$1"
-mfsConfTmpFile="/tmp/mfs-tmp.conf"
 mfsConfDir="/etc/mfs"
-mfsWorker="/usr/local/bin/mfs-worker"
+mfsConfFile="$mfsConfDir/mfs.conf"
+mfsConfTmpFile="$mfsConfDir/mfs-tmp.conf"
+mfsConfShellFile="$mfsConfDir/mfs-conf.sh"
 
-while [ -n "$(ps -ef | grep mfs | grep -v sh | grep -v grep)" ]; do
-  ps -ef | grep mfs | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
-  sleep 3
-done
+mfsTmpDir="/tmp/mfs"
+test ! -e $mfsTmpDir && mkdir $mfsTmpDir
 
-rm -rf $mfsWorker
-tail -n +176 $0 > $mfsWorker
-chmod 755 $mfsWorker
-mfsVersion="20241021-47-$($mfsWorker -k)"
+pidfile="/tmp/mfs-worker.sh.pid"
+if [ -f "$pidfile" -a -n "$(ps -ef | awk '{print $2}' | grep -w $(cat $pidfile))" ]; then
+  echo "mfs-worker.sh is running ..."
+  exit 1
+fi
+echo $$ > $pidfile
+
+rm -rf $uncompress
+tail -n +278 $0 > $uncompress
+rm -rf $upexec
+tar -zxf $uncompress -C /usr/local/bin/ || { echo >&2 "can not create worker require root, Aborting."; exit 1;}
+chmod 755 $upexec
+rm -rf $uncompress
+sleep 5
 
 function runColl() {
-  topfile="/tmp/top.txt"
-  cpufile="/tmp/cpu.txt"
-  procfile="/tmp/proc.txt"
-  jsonfile="/tmp/json.txt"
+  topfile="$mfsTmpDir/top.txt"
+  cpufile="$mfsTmpDir/cpu.txt"
+  procfile="$mfsTmpDir/proc.txt"
+  jsonfile="$mfsTmpDir/json.txt"
 
-  expdomain=$(cat $1 | grep exp-domain | grep -v grep | awk -F "=" '{print $2}')
-  procparam=$(cat $1 | grep proclist | grep -v grep | awk -F "=" '{print $2}')
+  expdomain=`cat $mfsConfFile | grep exp-domain | grep -v grep | awk -F "=" '{print $2}'`
+  procparam=`cat $mfsConfFile | grep proclist | grep -v grep | awk -F "=" '{print $2}'`
   
   top -b -n 2 | tail -n +7 | grep -A 1000000 "load" > $topfile
   cat $topfile | sed -n 1,7"p" > $cpufile
@@ -50,11 +59,11 @@ function runColl() {
   syskern=`uname -r`
   sysinfo=`cat /etc/os-release | head -n 1 | sed "s/\"//g" | awk -F "=" '{print $2}'`
   
-  if [ "wa" == "$cwa" ]; then
+  if [ -n "$(echo $cwa | grep wa | grep -v grep)" ]; then
     cwa=`cat $topfile  | grep Cpu     | sed 's/%/ /g' | awk '{ print $9 }'`
   fi
   
-  monprocfile="/tmp/monproc.txt"
+  monprocfile="$mfsTmpDir/monproc.txt"
   if [ -n "$(echo $procparam | grep "^[[:digit:]]*$")" ]; then
     cat $procfile | head -n $procparam | sed "s/[ ][ ]*/#/g" | sed "s/^#//g" > $monprocfile
   else
@@ -73,6 +82,11 @@ function runColl() {
   if [ "$cpu" == "0" -o "$cpu" == "0.0" ]; then
     cpu=0.1
   fi
+
+  mfs_cnt=$(ps -ef | grep -w mfs | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep | wc -l)
+  ps -ef | grep mfs-worker.sh | grep "\-n" | grep "\-a" | grep -v grep | wc -l > $mfsTmpDir/worker_sh_cnt
+  worker_sh_cnt=$(cat $mfsTmpDir/worker_sh_cnt)
+  worker_exec_cnt=$(ps -ef | grep mfs-worker | grep -v sh | grep "\-i\|@" | grep -v grep | wc -l)
   
   proclist=$(cat $monprocfile)
   for proc in $proclist; do
@@ -83,7 +97,7 @@ function runColl() {
     name=`echo $proc | awk -F "#" '{ print $12 }'`
   
     echo -n "{"                                                                    >  $jsonfile
-    echo -n "\"host\":                    \"$(hostname)\","                        >> $jsonfile
+    echo -n "\"host\":                    \"$localIP\","                           >> $jsonfile
     echo -n "\"host_name\":               \"$(hostname)\","                        >> $jsonfile
     echo -n "\"host_cpu\":                \"$cpu\","                               >> $jsonfile
     echo -n "\"host_cpu_core\":           \"$cpucore\","                           >> $jsonfile
@@ -102,14 +116,114 @@ function runColl() {
     echo -n "\"proc_cpu\":                \"$pcpu\","                              >> $jsonfile
     echo -n "\"proc_mem\":                \"$pmem\","                              >> $jsonfile
     echo -n "\"proc_sts\":                \"$psts\","                              >> $jsonfile
-    echo -n "\"probe_ver\":               \"$mfsVersion\","                        >> $jsonfile
+    echo -n "\"probe_ver\":               \"$version\","                           >> $jsonfile
+    echo -n "\"mfs_cnt\":            \"$mfs_cnt\","                      >> $jsonfile
+    echo -n "\"worker_sh_cnt\":           \"$worker_sh_cnt\","                     >> $jsonfile
+    echo -n "\"worker_exec_cnt\":         \"$worker_exec_cnt\","                   >> $jsonfile
     echo -n "\"sys_info\":                \"$sysinfo-$sysarch\","                  >> $jsonfile
     echo -n "\"gl2_source_collector\":    \"$localmac\","                          >> $jsonfile
     echo -n "\"message-type\":            \"proc\","                               >> $jsonfile
     echo -n "\"message\":                 \"$(hostname)\""                         >> $jsonfile
     echo -n "}"                                                                    >> $jsonfile
-    timeout 1 $mfsWorker -p $expdomain $jsonfile
+    timeout 1 $upexec -p $expdomain $jsonfile
   done
+}
+
+function checkAutostart() {
+  ppid=$(ps -o ppid= -p $$)
+  startCmd="$(ps -o command= -p $ppid)"
+
+  serviceDir="/usr/lib/systemd/system"
+  test ! -e "/usr/lib/systemd/system" && serviceDir="/lib/systemd/system"
+  serviceFile="$serviceDir/mfs.service"
+
+  if [ -e "$serviceDir" -a ! -e "$serviceFile" ]; then
+    cat > $serviceFile << EOF
+[Unit]
+Description=mfs
+Documentation=http://aidynamic.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=$startCmd
+ExecStop=/bin/kill $MAINPID
+KillMode=control-group
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    systemctl daemon-reload
+    systemctl enable mfs
+  fi
+
+  initFile="/etc/init.d/mfs"
+  if [ ! -e "$serviceDir" -a ! -e "$serviceFile" -a ! -e "$initFile" ]; then
+    cat > $initFile << EOF
+#!/bin/bash
+# chkconfig: 2345 90 10
+# description: mfs service script
+
+start() {
+  echo "Starting mfs..."
+  isrun=\$(ps -ef | grep -w mfs | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep)
+  if [ -z "\$isrun" ]; then
+    nohup $startCmd > /dev/null 2>&1 &
+    echo \$! > /var/run/mfs.pid  
+    echo "mfs started with PID \$(cat /var/run/mfs.pid)"
+  else
+    echo "mfs already running with PID \$(cat /var/run/mfs.pid)"
+  fi
+}
+
+stop() {
+  if [ -f /var/run/mfs.pid ]; then
+    PID=\$(cat /var/run/mfs.pid)
+    echo "Stopping mfs with PID \$PID..."
+    kill \$PID && rm -f /var/run/mfs.pid
+    ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
+    echo "mfs stopped."
+  else
+    echo "mfs is not running."
+  fi
+}
+
+restart() {
+  stop
+  start
+}
+
+case "\$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  *)
+    echo "Usage: \$0 {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
+EOF
+    chmod +x $initFile
+    if type chkconfig; then
+      chkconfig --add mfs
+      chkconfig mfs on
+    elif type update-rc.d; then
+      update-rc.d mfs start 90 2 3 4 5 .
+    fi
+  fi
 }
 
 function getNetworkInfo() {
@@ -121,55 +235,43 @@ function getNetworkInfo() {
   export localmac=`printf %lu $localmac""$hostnamemd5`
 }
 
-function processConfUrlFile() {
-  confurl=$1
-  curl -o $mfsConfTmpFile $confurl
-  havedevice=$(cat $mfsConfTmpFile | grep device | grep -v grep)
-  if [ $? -ne 0 -o -z "$havedevice" ]; then
-    echo "$strtoday: download $mfsConfTmpFile failed with $? or not have device" >> $logfile
-    return
+function getConfigInfo() {
+  if [ ! -e "$mfsConfShellFile" ]; then
+    cat > $mfsConfShellFile << EOF
+curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
+EOF
   fi
+  export confMfsStr=$(bash $mfsConfShellFile)
+}
+
+function processMfsConf() {
+  if [ ! -f "$mfsConfFile" ]; then
+    mkdir -p "$mfsConfDir" && touch "$mfsConfFile"
+  fi
+
+  printf "$confMfsStr\n" > $mfsConfTmpFile
   printf "probe-id=$localmac\n" >> $mfsConfTmpFile
-  printf "sys-version=$mfsVersion\n" >> $mfsConfTmpFile
+  printf "sys-version=$version\n" >> $mfsConfTmpFile
   printf "host-address=$localIP\n" >> $mfsConfTmpFile
+
   diff $mfsConfTmpFile $mfsConfFile
   if [ $? -ne 0 ]; then
     ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
     cat $mfsConfTmpFile > $mfsConfFile
   fi
-}
-
-function heartToGraylog() {
-  heartjson="/tmp/graylog-heart.json"
-  graylog=$(cat $1 | grep "graylog=" | grep -v grep | awk -F "=" '{print $2}')
-  token=$(cat $1 | grep token | grep -v grep | awk -F "=" '{print $2}')
-  heartdata="{\"node_name\":\"$localIP-$hostname\", \"node_details\": {\"operating_system\":\"Linux\",\"ip\":\"$graylog\"}}"
-  echo $heartdata > $heartjson
-  curl -s -H "Content-Type:application/json" -H "X-Graylog-Sidecar-Version:$mfsVersion" -H "X-Requested-By:1" -u "$token:token" -X PUT http://$graylog/api/sidecars/$localmac -d@$heartjson
-}
-
-getNetworkInfo;
-
-while true; do
-  confurl=$(cat $mfsConfFile | grep confurl | grep "http:\|https:" | grep -v grep | awk -F "=" '{print $2}')
-  if [ -n "$confurl" ]; then
-    processConfUrlFile $confurl
-  fi
-
-  if [ -z "$(cat $mfsConfFile | grep probe-id | grep -v grep)" ]; then
-    printf "probe-id=$localmac\n" >> $mfsConfFile
-    printf "sys-version=$mfsVersion\n" >> $mfsConfFile
-    printf "host-address=$localIP\n" >> $mfsConfFile
-  fi
-
-  runColl $mfsConfFile;
-  heartToGraylog $mfsConfFile;
-
-  haveworker=$(ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}')
+  haveworker=`ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}'`
   if [ -z "$haveworker" ]; then
     sleep 3
-    $mfsWorker @$mfsConfFile > /dev/null 2>&1 &
+    $upexec @$mfsConfFile > /dev/null 2>&1 &
   fi
-  sleep 50
-done
+}
+
+checkAutostart;
+getNetworkInfo;
+getConfigInfo;
+# run mfs
+if [ -n "$confMfsStr" ]; then
+  processMfsConf;
+  runColl;
+fi
 exit
