@@ -26,7 +26,9 @@ root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
 -rwxr-xr-x.  1 root root  1408113 Oct  9 04:12 mfs-worker
 ```
 
-Mfs will create `/etc/mfs/mfs-conf.sh` script will use it get configure for worker, you can edit this file to get configure from your server, by default get configure from http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+Mfs will create `/etc/mfs/mfs-conf.sh`, script will execute it to get configure for worker
+you can edit this file to get configure from your own server
+by default get configure from http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 
 ```bash
 [root@ecs-2d16-0001 uniprobe]# cat /etc/mfs/mfs-conf.sh 
