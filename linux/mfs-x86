@@ -1,6 +1,5 @@
 #!/bin/bash
 
-uncompress="/tmp/worker.tar.gz"
 upexec="/usr/local/bin/mfs-worker"
 version="20241110-88-$($upexec -k)"
 
@@ -19,12 +18,9 @@ if [ -f "$pidfile" -a -n "$(ps -ef | awk '{print $2}' | grep -w $(cat $pidfile))
 fi
 echo $$ > $pidfile
 
-rm -rf $uncompress
-tail -n +278 $0 > $uncompress
 rm -rf $upexec
-tar -zxf $uncompress -C /usr/local/bin/ || { echo >&2 "can not create worker require root, Aborting."; exit 1;}
+tail -n +278 $0 > $upexec
 chmod 755 $upexec
-rm -rf $uncompress
 sleep 5
 
 function runColl() {
@@ -236,9 +232,10 @@ function getNetworkInfo() {
 }
 
 function getConfigInfo() {
+  test ! -e "$mfsConfDir" && mkdir -p $mfsConfDir
   if [ ! -e "$mfsConfShellFile" ]; then
     cat > $mfsConfShellFile << EOF
-curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
+curl -s http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
 EOF
   fi
   export confMfsStr=$(bash $mfsConfShellFile)
@@ -268,10 +265,13 @@ function processMfsConf() {
 
 checkAutostart;
 getNetworkInfo;
-getConfigInfo;
-# run mfs
-if [ -n "$confMfsStr" ]; then
-  processMfsConf;
-  runColl;
-fi
+
+while true; do
+  getConfigInfo;
+  if [ -n "$confMfsStr" ]; then
+    processMfsConf;
+    runColl;
+  fi
+  sleep 60
+done
 exit
