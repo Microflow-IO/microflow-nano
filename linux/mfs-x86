@@ -272,6 +272,6 @@ while true; do
     processMfsConf;
     runColl;
   fi
-  sleep 60
+  sleep 50
 done
 exit
