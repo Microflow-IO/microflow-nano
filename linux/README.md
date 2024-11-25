@@ -32,11 +32,11 @@ script will execute it to get configure for worker
 
 you can edit this file to get configure from your own server
 
-by default get configure from http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+by default get configure from https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
 
 ```bash
 [root@ecs-2d16-0001 uniprobe]# cat /etc/mfs/mfs-conf.sh 
-curl -s http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
 ```
 
 Configure will save to /etc/mfs/mfs.conf
