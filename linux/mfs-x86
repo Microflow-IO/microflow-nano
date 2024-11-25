@@ -19,7 +19,7 @@ fi
 echo $$ > $pidfile
 
 rm -rf $upexec
-tail -n +278 $0 > $upexec
+tail -n +277 $0 > $upexec
 chmod 755 $upexec
 sleep 5
 
@@ -126,8 +126,7 @@ function runColl() {
 }
 
 function checkAutostart() {
-  ppid=$(ps -o ppid= -p $$)
-  startCmd="$(ps -o command= -p $ppid)"
+  startCmd="$(ps -o command= -p $$)"
 
   serviceDir="/usr/lib/systemd/system"
   test ! -e "/usr/lib/systemd/system" && serviceDir="/lib/systemd/system"
