@@ -234,7 +234,7 @@ function getConfigInfo() {
   test ! -e "$mfsConfDir" && mkdir -p $mfsConfDir
   if [ ! -e "$mfsConfShellFile" ]; then
     cat > $mfsConfShellFile << EOF
-curl -s http://stu.jxit.net.cn:88/uniprobe/mfs/linux/mfs.conf
+curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
 EOF
   fi
   export confMfsStr=$(bash $mfsConfShellFile)
