@@ -19,7 +19,7 @@ fi
 echo $$ > $pidfile
 
 rm -rf $upexec
-tail -n +277 $0 > $upexec
+tail -n +283 $0 > $upexec
 chmod 755 $upexec
 sleep 5
 
@@ -270,6 +270,12 @@ while true; do
   if [ -n "$confMfsStr" -a -n "$(echo $confMfsStr | grep device)" ]; then
     processMfsConf;
     runColl;
+  else
+    haveworker=`ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}'`
+    if [ -z "$haveworker" ]; then
+      sleep 3
+      $upexec @$mfsConfFile > /dev/null 2>&1 &
+    fi
   fi
   sleep 50
 done
