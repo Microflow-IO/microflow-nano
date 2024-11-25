@@ -237,7 +237,7 @@ function getConfigInfo() {
 curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
 EOF
   fi
-  export confMfsStr=$(bash $mfsConfShellFile)
+  export confMfsStr=$(timeout 10 bash $mfsConfShellFile)
 }
 
 function processMfsConf() {
