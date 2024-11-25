@@ -267,7 +267,7 @@ getNetworkInfo;
 
 while true; do
   getConfigInfo;
-  if [ -n "$confMfsStr" ]; then
+  if [ -n "$confMfsStr" -a -n "$(echo $confMfsStr | grep device)" ]; then
     processMfsConf;
     runColl;
   fi
