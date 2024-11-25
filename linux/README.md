@@ -39,7 +39,7 @@ by default get configure from https://raw.githubusercontent.com/Microflow-IO/mic
 curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
 ```
 
-Configure will save to /etc/mfs/mfs.conf
+Configure will save to /etc/mfs/mfs.conf, note mfs exec /etc/mfs/mfs-conf.sh 10s timeout
 
 ```bash
 root@VM-16-2-ubuntu:~# cat /etc/mfs/mfs.conf 
