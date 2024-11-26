@@ -1,19 +1,19 @@
 #!/bin/bash
 
-upexec="/usr/local/bin/mfs-worker"
+upexec="/usr/local/bin/mfnano-worker"
 version="20241110-88-$($upexec -k)"
 
-mfsConfDir="/etc/mfs"
-mfsConfFile="$mfsConfDir/mfs.conf"
-mfsConfTmpFile="$mfsConfDir/mfs-tmp.conf"
-mfsConfShellFile="$mfsConfDir/mfs-conf.sh"
+mfnanoConfDir="/etc/mfnano"
+mfnanoConfFile="$mfnanoConfDir/mfnano.conf"
+mfnanoConfTmpFile="$mfnanoConfDir/mfnano-tmp.conf"
+mfnanoConfShellFile="$mfnanoConfDir/mfnano-conf.sh"
 
-mfsTmpDir="/tmp/mfs"
-test ! -e $mfsTmpDir && mkdir $mfsTmpDir
+mfnanoTmpDir="/tmp/mfnano"
+test ! -e $mfnanoTmpDir && mkdir $mfnanoTmpDir
 
-pidfile="/tmp/mfs-worker.sh.pid"
+pidfile="/tmp/mfnano-worker.sh.pid"
 if [ -f "$pidfile" -a -n "$(ps -ef | awk '{print $2}' | grep -w $(cat $pidfile))" ]; then
-  echo "mfs-worker.sh is running ..."
+  echo "mfnano-worker.sh is running ..."
   exit 1
 fi
 echo $$ > $pidfile
@@ -24,13 +24,13 @@ chmod 755 $upexec
 sleep 5
 
 function runColl() {
-  topfile="$mfsTmpDir/top.txt"
-  cpufile="$mfsTmpDir/cpu.txt"
-  procfile="$mfsTmpDir/proc.txt"
-  jsonfile="$mfsTmpDir/json.txt"
+  topfile="$mfnanoTmpDir/top.txt"
+  cpufile="$mfnanoTmpDir/cpu.txt"
+  procfile="$mfnanoTmpDir/proc.txt"
+  jsonfile="$mfnanoTmpDir/json.txt"
 
-  expdomain=`cat $mfsConfFile | grep exp-domain | grep -v grep | awk -F "=" '{print $2}'`
-  procparam=`cat $mfsConfFile | grep proclist | grep -v grep | awk -F "=" '{print $2}'`
+  expdomain=`cat $mfnanoConfFile | grep exp-domain | grep -v grep | awk -F "=" '{print $2}'`
+  procparam=`cat $mfnanoConfFile | grep proclist | grep -v grep | awk -F "=" '{print $2}'`
   
   top -b -n 2 | tail -n +7 | grep -A 1000000 "load" > $topfile
   cat $topfile | sed -n 1,7"p" > $cpufile
@@ -59,7 +59,7 @@ function runColl() {
     cwa=`cat $topfile  | grep Cpu     | sed 's/%/ /g' | awk '{ print $9 }'`
   fi
   
-  monprocfile="$mfsTmpDir/monproc.txt"
+  monprocfile="$mfnanoTmpDir/monproc.txt"
   if [ -n "$(echo $procparam | grep "^[[:digit:]]*$")" ]; then
     cat $procfile | head -n $procparam | sed "s/[ ][ ]*/#/g" | sed "s/^#//g" > $monprocfile
   else
@@ -71,18 +71,18 @@ function runColl() {
   disktotal=$(df -BG | grep "^/dev" | sed "s/%//g" | sed "s/G//g" | awk '{sum+=$2} END {print sum}')
   disk=$(echo $use $disktotal | awk '{OFMT="%.1f";print $1/$2*100}')
   
-  # mfs-worker cpu and memory usage
-  scpu=`ps aux | grep mfs-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $3}'`
-  smem=`ps aux | grep mfs-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $4}'`
+  # mfnano-worker cpu and memory usage
+  scpu=`ps aux | grep mfnano-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $3}'`
+  smem=`ps aux | grep mfnano-worker | grep -v sh | grep -v grep | head -n 1 | awk '{print $4}'`
   
   if [ "$cpu" == "0" -o "$cpu" == "0.0" ]; then
     cpu=0.1
   fi
 
-  mfs_cnt=$(ps -ef | grep -w mfs | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep | wc -l)
-  ps -ef | grep mfs-worker.sh | grep "\-n" | grep "\-a" | grep -v grep | wc -l > $mfsTmpDir/worker_sh_cnt
-  worker_sh_cnt=$(cat $mfsTmpDir/worker_sh_cnt)
-  worker_exec_cnt=$(ps -ef | grep mfs-worker | grep -v sh | grep "\-i\|@" | grep -v grep | wc -l)
+  mfnano_cnt=$(ps -ef | grep -w mfnano | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep | wc -l)
+  ps -ef | grep mfnano-worker.sh | grep "\-n" | grep "\-a" | grep -v grep | wc -l > $mfnanoTmpDir/worker_sh_cnt
+  worker_sh_cnt=$(cat $mfnanoTmpDir/worker_sh_cnt)
+  worker_exec_cnt=$(ps -ef | grep mfnano-worker | grep -v sh | grep "\-i\|@" | grep -v grep | wc -l)
   
   proclist=$(cat $monprocfile)
   for proc in $proclist; do
@@ -113,7 +113,7 @@ function runColl() {
     echo -n "\"proc_mem\":                \"$pmem\","                              >> $jsonfile
     echo -n "\"proc_sts\":                \"$psts\","                              >> $jsonfile
     echo -n "\"probe_ver\":               \"$version\","                           >> $jsonfile
-    echo -n "\"mfs_cnt\":            \"$mfs_cnt\","                      >> $jsonfile
+    echo -n "\"mfnano_cnt\":            \"$mfnano_cnt\","                      >> $jsonfile
     echo -n "\"worker_sh_cnt\":           \"$worker_sh_cnt\","                     >> $jsonfile
     echo -n "\"worker_exec_cnt\":         \"$worker_exec_cnt\","                   >> $jsonfile
     echo -n "\"sys_info\":                \"$sysinfo-$sysarch\","                  >> $jsonfile
@@ -130,12 +130,12 @@ function checkAutostart() {
 
   serviceDir="/usr/lib/systemd/system"
   test ! -e "/usr/lib/systemd/system" && serviceDir="/lib/systemd/system"
-  serviceFile="$serviceDir/mfs.service"
+  serviceFile="$serviceDir/mfnano.service"
 
   if [ -e "$serviceDir" -a ! -e "$serviceFile" ]; then
     cat > $serviceFile << EOF
 [Unit]
-Description=mfs
+Description=mfnano
 Documentation=http://aidynamic.com
 After=network-online.target firewalld.service
 Wants=network-online.target
@@ -155,37 +155,37 @@ StartLimitInterval=60s
 WantedBy=multi-user.target
 EOF
     systemctl daemon-reload
-    systemctl enable mfs
+    systemctl enable mfnano
   fi
 
-  initFile="/etc/init.d/mfs"
+  initFile="/etc/init.d/mfnano"
   if [ ! -e "$serviceDir" -a ! -e "$serviceFile" -a ! -e "$initFile" ]; then
     cat > $initFile << EOF
 #!/bin/bash
 # chkconfig: 2345 90 10
-# description: mfs service script
+# description: mfnano service script
 
 start() {
-  echo "Starting mfs..."
-  isrun=\$(ps -ef | grep -w mfs | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep)
+  echo "Starting mfnano..."
+  isrun=\$(ps -ef | grep -w mfnano | grep "\-n" | grep "\-a" | grep -v worker | grep -v grep)
   if [ -z "\$isrun" ]; then
     nohup $startCmd > /dev/null 2>&1 &
-    echo \$! > /var/run/mfs.pid  
-    echo "mfs started with PID \$(cat /var/run/mfs.pid)"
+    echo \$! > /var/run/mfnano.pid  
+    echo "mfnano started with PID \$(cat /var/run/mfnano.pid)"
   else
-    echo "mfs already running with PID \$(cat /var/run/mfs.pid)"
+    echo "mfnano already running with PID \$(cat /var/run/mfnano.pid)"
   fi
 }
 
 stop() {
-  if [ -f /var/run/mfs.pid ]; then
-    PID=\$(cat /var/run/mfs.pid)
-    echo "Stopping mfs with PID \$PID..."
-    kill \$PID && rm -f /var/run/mfs.pid
-    ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
-    echo "mfs stopped."
+  if [ -f /var/run/mfnano.pid ]; then
+    PID=\$(cat /var/run/mfnano.pid)
+    echo "Stopping mfnano with PID \$PID..."
+    kill \$PID && rm -f /var/run/mfnano.pid
+    ps -ef | grep mfnano-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
+    echo "mfnano stopped."
   else
-    echo "mfs is not running."
+    echo "mfnano is not running."
   fi
 }
 
@@ -213,10 +213,10 @@ exit 0
 EOF
     chmod +x $initFile
     if type chkconfig; then
-      chkconfig --add mfs
-      chkconfig mfs on
+      chkconfig --add mfnano
+      chkconfig mfnano on
     elif type update-rc.d; then
-      update-rc.d mfs start 90 2 3 4 5 .
+      update-rc.d mfnano start 90 2 3 4 5 .
     fi
   fi
 }
@@ -231,34 +231,34 @@ function getNetworkInfo() {
 }
 
 function getConfigInfo() {
-  test ! -e "$mfsConfDir" && mkdir -p $mfsConfDir
-  if [ ! -e "$mfsConfShellFile" ]; then
-    cat > $mfsConfShellFile << EOF
-curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
+  test ! -e "$mfnanoConfDir" && mkdir -p $mfnanoConfDir
+  if [ ! -e "$mfnanoConfShellFile" ]; then
+    cat > $mfnanoConfShellFile << EOF
+curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfnano.conf
 EOF
   fi
-  export confMfsStr=$(timeout 10 bash $mfsConfShellFile)
+  export confMfnanoStr=$(timeout 10 bash $mfnanoConfShellFile)
 }
 
-function processMfsConf() {
-  if [ ! -f "$mfsConfFile" ]; then
-    mkdir -p "$mfsConfDir" && touch "$mfsConfFile"
+function processMfnanoConf() {
+  if [ ! -f "$mfnanoConfFile" ]; then
+    mkdir -p "$mfnanoConfDir" && touch "$mfnanoConfFile"
   fi
 
-  printf "$confMfsStr\n" > $mfsConfTmpFile
-  printf "probe-id=$localmac\n" >> $mfsConfTmpFile
-  printf "sys-version=$version\n" >> $mfsConfTmpFile
-  printf "host-address=$localIP\n" >> $mfsConfTmpFile
+  printf "$confMfnanoStr\n" > $mfnanoConfTmpFile
+  printf "probe-id=$localmac\n" >> $mfnanoConfTmpFile
+  printf "sys-version=$version\n" >> $mfnanoConfTmpFile
+  printf "host-address=$localIP\n" >> $mfnanoConfTmpFile
 
-  diff $mfsConfTmpFile $mfsConfFile
+  diff $mfnanoConfTmpFile $mfnanoConfFile
   if [ $? -ne 0 ]; then
-    ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
-    cat $mfsConfTmpFile > $mfsConfFile
+    ps -ef | grep mfnano-worker | grep -v sh | grep -v grep | awk '{print $2}' | xargs kill
+    cat $mfnanoConfTmpFile > $mfnanoConfFile
   fi
-  haveworker=`ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}'`
+  haveworker=`ps -ef | grep mfnano-worker | grep -v sh | grep -v grep | awk '{print $2}'`
   if [ -z "$haveworker" ]; then
     sleep 3
-    $upexec @$mfsConfFile > /dev/null 2>&1 &
+    $upexec @$mfnanoConfFile > /dev/null 2>&1 &
   fi
 }
 
@@ -267,14 +267,14 @@ getNetworkInfo;
 
 while true; do
   getConfigInfo;
-  if [ -n "$confMfsStr" -a -n "$(echo $confMfsStr | grep device)" ]; then
-    processMfsConf;
+  if [ -n "$confMfnanoStr" -a -n "$(echo $confMfnanoStr | grep device)" ]; then
+    processMfnanoConf;
     runColl;
   else
-    haveworker=`ps -ef | grep mfs-worker | grep -v sh | grep -v grep | awk '{print $2}'`
+    haveworker=`ps -ef | grep mfnano-worker | grep -v sh | grep -v grep | awk '{print $2}'`
     if [ -z "$haveworker" ]; then
       sleep 3
-      $upexec @$mfsConfFile > /dev/null 2>&1 &
+      $upexec @$mfnanoConfFile > /dev/null 2>&1 &
     fi
   fi
   sleep 50
