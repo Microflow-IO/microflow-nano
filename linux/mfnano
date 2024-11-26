@@ -1,7 +1,6 @@
 #!/bin/bash
 
 upexec="/usr/local/bin/mfnano-worker"
-version="20241110-88-$($upexec -k)"
 
 mfnanoConfDir="/etc/mfnano"
 mfnanoConfFile="$mfnanoConfDir/mfnano.conf"
@@ -21,6 +20,7 @@ echo $$ > $pidfile
 rm -rf $upexec
 tail -n +283 $0 > $upexec
 chmod 755 $upexec
+version="20241110-88-$($upexec -k)"
 sleep 5
 
 function runColl() {
