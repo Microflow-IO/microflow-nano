@@ -1,6 +1,6 @@
-![logo](https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/main/github_microflow.png)
+![logo](https://raw.githubusercontent.com/Microflow-IO/microflow-nano/main/github_microflow.png)
 
-# Microflow Sentinel
+# Microflow Nano
 
 
 
@@ -31,7 +31,7 @@
 
 ![function](microflow_function_B.png)
 
-[More details](https://github.com/Microflow-IO/microflow.sentinel/blob/main/Where%20Microflow%20Sentinel%20Shines.md)
+[More details](https://github.com/Microflow-IO/microflow-nano/blob/main/Where%20Microflow%20Nano%20Shines.md)
 
 ## 🚦 Get Started in 3 Steps
 
@@ -55,8 +55,8 @@
 
 ## 🎉 Ready to Revolutionize Your Cloud Security?
 
-[Try Microflow Sentinel for Free Today!](#)
+[Try Microflow Nano for Free Today!](#)
 
 ---
 
-*Microflow Sentinel: Bridging the critical gap in cloud infrastructure data capabilities. Join us in this transformative journey and witness the magic of our 500KB marvel!*
+*Microflow Nano: Bridging the critical gap in cloud infrastructure data capabilities. Join us in this transformative journey and witness the magic of our 500KB marvel!*
