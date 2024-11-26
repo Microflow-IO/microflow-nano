@@ -1,4 +1,4 @@
-# Public Cloud Deployment
+# Docker Deployment
 
 Download a release docker image from Github and import
 
