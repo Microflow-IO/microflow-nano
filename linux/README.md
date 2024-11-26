@@ -1,48 +1,44 @@
 # Public Cloud Deployment
 
-Use the following command for one-click online installation
+Download a release from Github and install `mfnano` to `/usr/local/bin` directory
 
 ```bash
-curl https://raw.githubusercontent.com/Microflow-IO/microflow-sentinel/refs/heads/main/mfs-install.sh | bash -x
+root@VM-16-2-ubuntu:~# chmod +x /usr/local/bin/mfnano
+root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
+-rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfnano
 ```
 
-This will install `mfs` in the `/usr/local/bin` directory, it is script program
+Start mfnano
+
+```bash
+nohup /usr/local/bin/mfnano > /dev/null 2>&1 &
+```
+
+Mfnano will create `/usr/local/bin/mfnano-worker`, it is worker program
 
 ```bash
 root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
--rwxr-xr-x.  1 root root  1409223 Oct  9 04:12 mfs
+-rwxr-xr-x.  1 root root  1408113 Oct  9 04:12 mfnano-worker
 ```
 
-Start mfs
+Mfnano will create `/etc/mfnano/mfnano-conf.sh`
+
+script will execute it get configure for mfnano-worker
+
+you can edit this file get configure from your own server
+
+by default will get configure from 
+https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfnano.conf
 
 ```bash
-nohup /usr/local/bin/mfs > /dev/null 2>&1 &
+[root@ecs-2d16-0001 uniprobe]# cat /etc/mfnano/mfnano-conf.sh 
+curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfnano.conf
 ```
 
-Mfs will create `/usr/local/bin/mfs-worker`, it is worker program
+Configure will save to /etc/mfnano/mfnano.conf, note mfnano exec /etc/mfnano/mfnano-conf.sh 10s timeout
 
 ```bash
-root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
--rwxr-xr-x.  1 root root  1408113 Oct  9 04:12 mfs-worker
-```
-
-Mfs will create `/etc/mfs/mfs-conf.sh`
-
-script will execute it to get configure for worker
-
-you can edit this file to get configure from your own server
-
-by default get configure from https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
-
-```bash
-[root@ecs-2d16-0001 uniprobe]# cat /etc/mfs/mfs-conf.sh 
-curl -s https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfs.conf
-```
-
-Configure will save to /etc/mfs/mfs.conf, note mfs exec /etc/mfs/mfs-conf.sh 10s timeout
-
-```bash
-root@VM-16-2-ubuntu:~# cat /etc/mfs/mfs.conf 
+root@VM-16-2-ubuntu:~# cat /etc/mfnano/mfnano.conf 
 device=any
 exp-domain=demo.microflow.io:12201
 token=1hafs2nigai62j9fm8eau6c5d6qb4e9725rqeaohj9u58gpvfm21
