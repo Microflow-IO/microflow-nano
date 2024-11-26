@@ -23,9 +23,7 @@ root@VM-16-2-ubuntu:~# ls -al /usr/local/bin/
 
 Mfnano will create `/etc/mfnano/mfnano-conf.sh`
 
-script will execute it get configure for mfnano-worker
-
-you can edit this file get configure from your own server
+mfnano will execute it get configure for mfnano-worker, edit this file get from your own server
 
 by default will get configure from 
 https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/linux/mfnano.conf
