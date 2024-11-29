@@ -57,7 +57,7 @@
 
 ## ☎FAQ
 
-
+https://github.com/Microflow-IO/microflow-nano/blob/657b7da5e14ca2455c2d650d2562605143c9dab3/Nano_FAQ.md
 
 
 
