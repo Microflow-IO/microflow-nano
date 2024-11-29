@@ -13,9 +13,9 @@
 
 ## 🎬Brief Introduction
 
-- It is a cloud/native basic data capability, **a host-based**, ultra-high performance, fine-grained, multi-dimensional traffic analysis tool.
-- It is designed according to **commercial product standards**, it has large-scale deployment and 24/7/365 operation capability. 
-- It can provide **high-quality traffic log data and indicators** for various security and monitoring scenarios in real time.
+- Nano is a cloud/native basic data capability, **a host-based**, ultra-high performance, fine-grained, multi-dimensional traffic analysis tool, and also provides real-time packet forwarding and PCAP playback.
+- Nano is designed according to **commercial product standards**, it has large-scale deployment and 24/7/365 operation capability. 
+- Nano can provide **high-quality traffic log data and indicators** for various security and monitoring scenarios in real time.
 
 
 
@@ -41,7 +41,7 @@
 
 ![function](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/microflow_function_W.png?raw=true)
 
-[More details](https://github.com/Microflow-IO/microflow-nano/blob/main/Where%20Microflow%20Nano%20%20Shines.md)
+[More details](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/56fdb420d6b9afc0e089533ad05fa0735d72d28c/Where%20Microflow%20Sentinel%20Shines.md)
 
 
 
@@ -53,7 +53,13 @@
 4. K8S
 5. Linux ARM
 
+  
 
+## 📊Output List
+
+[Data & KPIs](https://github.com/Microflow-IO/microflow-nano/blob/main/Nano_Outpu_List.md)
+
+  
 
 ## ☎FAQ
 

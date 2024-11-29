@@ -3,7 +3,7 @@
 
 
 <h1 style="font-size: 30px;">MicroFlow Nano</h1>  
-<h2 style="font-size: 50px;">Output Output List</h2>
+<h2 style="font-size: 50px;">Output List</h2>
 
 
 
@@ -15,18 +15,6 @@
 ------
 
 [TOC]
-
-1. **Host-Metrix, CPU/MEM/HD...**
-2. **Network, TCP/UDP pairs, KPI/KQI**
-3. **HTTP/API, REQ/RSP, header/body, KPI/KQI**
-4. **SQL, the mainstream structured database**
-5. **DNS**
-6. **Raw Packets (forward or FIFO save to PCAP)**
-7. **......**
-
-- ***KPI refers to communication indicators based on traffic/links/packets, etc.***
-- ***KQI refers to performance indicators mainly based on various types of latency, errors, etc.***
-
 
 # 🏠   Host-Metrics
 

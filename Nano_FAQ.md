@@ -2,12 +2,13 @@
 
   
 
-<h1 style="font-size: 40px;">MicroFlow Nano</h1>  
-<h2 style="font-size: 70px;">FAQ</h2>
+<h1 style="font-size: 30px;">MicroFlow Nano</h1>  
+<h2 style="font-size: 50px;">FAQ</h2>
 
   
 
-<h2 style="font-size: 20px;color: #1E90FF;">Possibly the world's smallest enterprise-level host traffic analysis probe</h3>  
+<h2 style="font-size: 20px;color: #1E90FF;">The world's smallest enterprise-level host traffic analysis probe</h3>  
+
   
 
 [TOC]
@@ -34,6 +35,71 @@
 - **Puzzlement:** On the one hand, under cloud and cloud-native architectures, workloads are more flexible and computing resources are more sensitive;  on the other hand, real-time parsing of data packets and outputting fine-grained traffic logs require more resources;
 - **Question:** How can we generate fine-grained traffic logs without increasing resources?
 - **Solution:** Nano, with its excellent architectural design and coding capabilities, perfectly resolves the aforementioned contradictions and demands.
+
+
+
+## Main functions of Nano
+
+The functional groups of Nano are divided into two categories: one is host traffic analysis; The second is packet forwarding.
+
+**Function group 1: Host traffic analysis and output**
+
+```mermaid
+graph LR;
+
+    subgraph HOST
+        A[vNIC/NIC]
+        B[Nano Probe]
+    end
+    
+    A-..->|Packet|B
+    B-..->|Push Log & KPIs over UDP|C[Logstash/Fluentd]
+    C-..->D[Server]
+```
+
+```mermaid
+graph LR;
+
+    subgraph HOST
+        A[vNIC/NIC]
+        B[Nano Probe]
+        C[Log Files]
+        D[Log Collector]
+    end
+    
+    A-.->|Packet|B
+    B-.->|Granular traffic log & KPIs|C
+    C-.->D
+    D-..->E[Server]
+```
+
+**Function group 2: Packet forward and PCAP Replay**
+
+```mermaid
+graph LR;
+
+    subgraph HOST
+        A[vNIC/NIC]
+        B[Nano Probe]
+    end
+    
+    A-...->|Packet|B
+    B-...->|Real Time Forward Packet|C[Server/Packet Analyzer]
+```
+
+```mermaid
+graph LR;
+
+    subgraph HOST
+        A[vNIC/NIC]
+        B[Nano Probe]
+        C[PCAP FIFO]
+    end
+    
+    A-..->|Packet|B
+    B-..->C
+    C-...->|Replay PCAP|E[Server/Packet Analyzer]
+```
 
 
 
