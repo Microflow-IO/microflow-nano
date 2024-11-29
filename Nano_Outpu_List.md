@@ -16,6 +16,18 @@
 
 [TOC]
 
+1. **Host-Metrix, CPU/MEM/HD...**
+2. **Network, TCP/UDP pairs, KPI/KQI**
+3. **HTTP/API, REQ/RSP, header/body, KPI/KQI**
+4. **SQL, the mainstream structured database**
+5. **DNS**
+6. **Raw Packets (forward or FIFO save to PCAP)**
+7. **......**
+
+- ***KPI refers to communication indicators based on traffic/links/packets, etc.***
+- ***KQI refers to performance indicators mainly based on various types of latency, errors, etc.***
+
+
 # 🏠   Host-Metrics
 
 | No.  | KPI Name        | Description                                                  |
