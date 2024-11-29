@@ -1,48 +1,72 @@
-![logo](https://raw.githubusercontent.com/Microflow-IO/microflow-nano/main/github_microflow.png)
+<img src="https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/github_microflow.png?raw=true" alt="logo" style="float:left; margin-right:10px;" />
+
+  
 
 # Microflow Nano
 
+  
 
+<h2 style="font-size: 20px;color: #1E90FF;">The world's smallest enterprise-level host traffic analysis probe</h3>  
+  
 
-**The smallest of its kind, yet its power knows no bounds.**
-
-
+  
 
 ## 🎬Brief Introduction
 
 - It is a cloud/native basic data capability, **a host-based**, ultra-high performance, fine-grained, multi-dimensional traffic analysis tool.
 - It is designed according to **commercial product standards**, it has large-scale deployment and 24/7/365 operation capability. 
-- It can provide **high-quality traffic log data and various indicators** for various security and monitoring scenarios in real time.
+- It can provide **high-quality traffic log data and indicators** for various security and monitoring scenarios in real time.
+
+
 
 ## 🚀 Key Features
 
-- **Ultra-Lightweight**: Just 500KB standalone Linux tool, yet incredibly powerful.
-- **Cross-Platform**: Works on Linux, Windows, ARM/X86, K8S & containers.
-- **Ultra-High Performance: Fixed 110MB memory footprint, without additional CPU resources**.
-- **Fine-grained Monitoring**: Real-time HTTP/API/header/body, SQL, DNS, TCP/UDP......,and system metrics.
+- **Ultra-Lightweight:** Just **500KB standalone** Linux tool, yet incredibly powerful.
+- **Cross-Platform:** Works on Linux, Windows, ARM, X86, K8S & containers.
+- **Ultra-High Performance: Without additional CPU resources, fixed 110MB memory footprint**.
+- **Fine-grained Data:** Real-time output HTTP/API/header/body, SQL, DNS, TCP/UDP......,raw packets, and host metrics.
+- **Superior Security:** Fully silent deployment, with no interference to business, hosts, or cloud networks.
+
+
 
 ## 💡 Benefits
 
 1. **Deploy in Seconds**: One version fits all major Linux distros. No dependencies, no hassle.
 2. **Zero Impact Observability**: Deep insights without affecting your production environment.
-3. **Open data structure**: Encapsulated with JSON UDP, quickly adapted to ELK/ES, Splunk，Graylog，OpenSearch...
+3. **Open data structure**: Encapsulated with JSON UDP, quickly adapted to ELK/ES, Splunk， Graylog， OpenSearch; AWS Cloudwatch/Log, AZURE Monitor/Log Analytics; Datadog/Log Management, New Relic/Logs; SOC-based platforms, Wazuh, QRadar, etc...
+
+
 
 ## 🎯 Use Cases
 
-![function](microflow_function_B.png)
+![function](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/microflow_function_W.png?raw=true)
 
-[More details](https://github.com/Microflow-IO/microflow-nano/blob/main/Where%20Microflow%20Nano%20Shines.md)
+[More details](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/56fdb420d6b9afc0e089533ad05fa0735d72d28c/Where%20Microflow%20Sentinel%20Shines.md)
 
-## 🚦 Get Started in 3 Steps
 
-1. Download the standalone program for your platform.
-2. Deploy with a single command – no configuration needed.
-3. Start collecting data in JSON UDP format, compatible with ELK, Splunk, Graylog, and more.
+
+## 🚦 Simplified Deployment
+
+1. Linux X86
+2. Windows
+3. Docker
+4. K8S
+5. Linux ARM
+
+
+
+## ☎FAQ
+
+
+
+
 
 ## 🏆 Battle-Tested Reliability
 
-- Developed since 2020, now in version 4.0
+- Developed since 2019, now in version 4.0
 - Deployed on 1000+ IaaS hosts and 10,000+ PaaS VMs/K8S nodes
+
+
 
 ## 💰 Free and Open Source
 
@@ -53,10 +77,18 @@
 | SMBs                  | Free Forever                               |
 | Medium to Large Users | **Commercially licensed, but open source** |
 
-## 🎉 Ready to Revolutionize Your Cloud Security?
 
-[Try Microflow Nano for Free Today!](#)
+
+
+
+**www.microflow.io**
+
+**leoyoung@microflow.io**
+
+**07/23/2023**
+
+
 
 ---
 
-*Microflow Nano: Bridging the critical gap in cloud infrastructure data capabilities. Join us in this transformative journey and witness the magic of our 500KB marvel!*
+*Microflow Sentinel: Bridging the critical gap in cloud infrastructure data capabilities. Join us in this transformative journey and witness the magic of our 500KB marvel!*
