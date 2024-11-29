@@ -6,7 +6,7 @@ Microflow-nano (mfnano) is a lightweight data flow processing engine designed fo
 
 ## System Requirements
 
-- Supports Linux systems (e.g., Ubuntu, CentOS >= 7, Debian, Kylin10), Centos6 please mail to: leo@microflow.io
+- Supports Linux systems (e.g., Ubuntu, CentOS >= 7, Debian, Kylin10), Centos6 please mail to: service@microflow.io
 - Requires root privileges and must have the `curl` command available to download configuration files.
 
 ## Quick Start
