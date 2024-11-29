@@ -41,7 +41,7 @@
 
 ![function](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/main/microflow_function_W.png?raw=true)
 
-[More details](https://raw.githubusercontent.com/MicroflowSentinel/microflow.sentinel/blob/56fdb420d6b9afc0e089533ad05fa0735d72d28c/Where%20Microflow%20Sentinel%20Shines.md)
+[More details](https://github.com/Microflow-IO/microflow-nano/blob/main/Where%20Microflow%20Nano%20%20Shines.md)
 
 
 
@@ -57,7 +57,7 @@
 
 ## ☎FAQ
 
-https://github.com/Microflow-IO/microflow-nano/blob/657b7da5e14ca2455c2d650d2562605143c9dab3/Nano_FAQ.md
+[Nano FAQ](https://github.com/Microflow-IO/microflow-nano/blob/657b7da5e14ca2455c2d650d2562605143c9dab3/Nano_FAQ.md)
 
 
 
