@@ -1,8 +1,5 @@
 # Microflow-nano (mfnano) Deployment Guide
 
-## Introduction
-
-Microflow-nano (mfnano) is a lightweight data flow processing engine designed for efficiently capturing and processing network traffic data. It allows real-time monitoring, analysis, and sends network data in JSON format to a specified server, supporting automatic protocol analysis and traffic log export. It is suitable for network monitoring, data traffic analysis, and similar scenarios.
 
 ## System Requirements
 
