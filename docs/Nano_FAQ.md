@@ -134,7 +134,7 @@ By integrating with various log analysis platforms, observability solutions, and
 
 ## What data and KPIs can Nano output?
 
-Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/Nano_Outpu_List.md)**".
+Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/docs/Nano_Outpu_List.md)**".
 
 
 
