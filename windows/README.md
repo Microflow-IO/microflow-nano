@@ -46,11 +46,11 @@ With this configuration, `mfnano` will send traffic logs to demo.microflow.io on
 
 ```bash
 PS D:\test\mfnano> type .\mfnano.conf | findstr probe-id
-probe-id=37403430542246
+probe-id=E40D3662F23C
 PS D:\test\mfnano>
 ```
 
-To access the platform, visit https://demo.microflow.io in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:37403430542246** to see your traffic logs.
+To access the platform, visit https://demo.microflow.io in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:E40D3662F23C** to see your traffic logs.
 ![image](https://github.com/user-attachments/assets/13f8fcde-7ed9-41ed-8a43-f43360357f68)
 
 
