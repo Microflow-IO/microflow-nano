@@ -6,7 +6,7 @@
 
 
 
-<h2 style="font-size: 20px;color: #1E90FF;">Possibly the world's smallest enterprise-level host traffic analysis probe</h3>  
+<h2 style="font-size: 20px;color: #1E90FF;">The world's smallest enterprise-level host traffic analysis probe</h3>  
 
 
 
@@ -102,6 +102,6 @@ Features: 100% no need to modify and restart the host and business; 100% real-ti
 
 **www.microflow.io**
 
-**service@microflow.io**
+**microflow.io@gmail.com**
 
 **07/23/2023**
