@@ -97,7 +97,7 @@ We have built a demo using Graylog to help you understand the powerful capabilit
 
 **www.microflow.io**
 
-**leoyoung@microflow.io**
+**microflow.io@gmail.com**
 
 **07/23/2023**
 
