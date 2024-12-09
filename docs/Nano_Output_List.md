@@ -7,9 +7,6 @@
 
 
 
-<h2 style="font-size: 20px;color: #1E90FF;">The world's smallest enterprise-level host traffic analysis probe</h3>  
-
-
 > [!IMPORTANT]
 >
 > **Nano, a 500KB standalone program, enables real-time output of the following content without adding computing resources in 99% of production environments.**
