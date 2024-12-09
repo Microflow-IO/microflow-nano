@@ -134,7 +134,7 @@ By integrating with various log analysis platforms, observability solutions, and
 
 ## What data and KPIs can Nano output?
 
-Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/docs/Nano_Outpu_List.md)**".
+Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/Nano_Outpu_List.md)**".
 
 
 
@@ -225,16 +225,6 @@ As a probe program for processing fine-grained traffic log data, any concerns us
 - **Resource security:** The extremely low resource overhead and upper limit control algorithm are sufficient to ensure that Nano does not compete with other programs for computing resources, which is the most important design for Nano's resource security. Please refer to "Nano's Processing Performance Reference Metrics" for details;
 - **Program security:** Nano is a standalone program, which significantly reduces security risks from the perspective of software supply chain and dependency environment. Additionally, we also provide an open-source version for medium to large-scale users, alleviating concerns about code risks;
 - **Data Security:** Nano offers a data encryption feature using its proprietary algorithm, which users can opt to enable. In this scenario, the receiving end should utilize Logstash, as we have developed a Logstash plugin specifically for decryption purposes.
-
-
-
-## Is Nano an eBPF program?
-
-The current commercial version of Nano is not an eBPF program.
-
-Actually, our Nano eBPF version has been tested for over a year, but considering risks such as agility, compatibility, and security in large-scale deployment, we have not yet considered releasing it. 
-
-Additionally, in the context of Nano usage, we compared the commercial version with the eBPF version and found no significant optimization in processing performance and resource utilization in the eBPF version.
 
 
 
@@ -329,10 +319,8 @@ graph LR;
 
 ## Can Nano parse HTTPS?
 
-Nano cannot parse encrypted traffic!  However, in most cases, this does not affect Nano from achieving its intended value!
-Because the actual deployment location of Nano in production environments is usually before loading HTTPS or after unloading HTTPS;
-
-In other words, in most cases, where Nano is deployed, HTTPS is not the primary traffic, so there is no need to worry about the encryption and decryption issues of HTTPS.
+- High version Nano can parse SSL/TLS plaintext without a CA certificate; But only limited to Linux-64; Windows does not support;
+- Low version Nano does not support parsing encrypted traffic; However, in most cases, this does not affect Nano from achieving its intended value! Because the actual deployment location of Nano in production environments is usually before loading HTTPS or after unloading HTTPS; In other words, in most cases, where Nano is deployed, HTTPS is not the primary traffic, so there is no need to worry about the encryption and decryption issues of HTTPS.
 
 
 
@@ -342,13 +330,13 @@ In other words, in most cases, where Nano is deployed, HTTPS is not the primary 
 
 
 
-## Processing performance and resource overhead
+## Processing performance and resource consumption
 
 Under 99% of the working conditions, Nano can operate solely with the remaining computing power resources of the host; the following parameters are for reference only;
 
-- Nano parses 1Gbps network traffic in real-time and outputs TCP/UDP quadruples and KPIs, while only consuming 5% of a single vCPU and 110MB of memory;
-- Nano can parse 1000 concurrent HTTP sessions in real time, outputting HTTP/REQ/RSP/Header/Body, as well as KPIs, while only consuming 10% of a single vCPU and 110MB of memory;
-- In extreme cases, when CPU usage exceeds 30% of one vCPU, Nano will initiate a throttling algorithm to reduce CPU overhead and avoid affecting the operation of other programs;
+- Nano parses 1Gbps network traffic in real-time and outputs TCP/UDP quadruples and KPIs, while only consuming 5% of  vCPU and 110MB of memory;
+- Nano can parse 1000 concurrent HTTP sessions in real time, outputting HTTP/REQ/RSP/Header/Body, as well as KPIs, while only consuming 10% of vCPU and 110MB of memory;
+- In extreme cases, when CPU usage exceeds 20% of one vCPU, Nano will initiate a throttling algorithm to reduce CPU overhead and avoid affecting the operation of other programs;
 - Storage requirements?  If the user does not store JSON or PCAP files locally on the host, there is no need to consider the storage overhead of the program itself.
 
 
