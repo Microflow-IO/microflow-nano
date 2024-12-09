@@ -158,7 +158,7 @@ Nano is not a program open to the public;  however, it can be selectively open-s
 
 Nano is permanently free for individuals and small-to-medium-sized users.
 
-For commercial key accounts, Nano will charge an appropriate cost fee, which can be referenced from the cost of developing Nano by the user themselves.
+For commercial key accounts, Nano will charge an appropriate cost, but it will be significantly lower than the cost of developing Nano by the users themselves.
 
 
 
