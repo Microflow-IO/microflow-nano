@@ -6,34 +6,36 @@
 
   
 
-<h2 style="font-size: 20px;color: #1E90FF;">The world's smallest enterprise-level host traffic analysis probe</h3>  
+<h2 style="font-size: 20px;color: #1E90FF;">Featherweight Probe. Heavyweight Security.
+</h3>  
+
   
 
   
 
 ## 🎬Brief Introduction
 
-- Nano is a cloud/native basic data capability, **a host-based**, ultra-high performance, fine-grained, multi-dimensional traffic analysis tool, and also provides real-time packet forwarding and PCAP playback.
-- Nano is designed according to **commercial product standards**, it has large-scale deployment and 24/7/365 operation capability. 
-- Nano can provide **high-quality traffic log data and indicators** for various security and monitoring scenarios in real time.
+- Nano is a cross-architecture basic data capability; **it is a host-based**, ultra-high-performance, fine-grained, multi-dimensional traffic log acquisition tool that simultaneously provides real-time packet forwarding and PCAP playback.
+- Nano is designed according to commercial product standards, featuring large-scale deployment and 24/7/365 operation capabilities, and has successfully deployed **over 18,000 VMs and K8S-nodes**.
+- Nano is a type of DaaS tool, and various data analysis platforms can realize rich cloud network security, data security, and performance monitoring scenarios through Nano data.
 
 
 
 ## 🚀 Key Features
 
 - **Ultra-Lightweight:** Just **500KB standalone** Linux tool, yet incredibly powerful.
-- **Cross-Platform:** Works on Linux, Windows, ARM, X86, K8S & containers.
+- **Cross-Platform:** Works on Linux, **Windows Server (above 2008)**; ARM86, X86; K8S & containers.
 - **Ultra-High Performance: Without additional CPU resources, fixed 110MB memory footprint**.
-- **Fine-grained Data:** Real-time output HTTP/API/header/body, SQL, DNS, TCP/UDP......,raw packets, and host metrics.
+- **Fine-grained Data:** Output HTTP/header/body, SQL, DNS, TCP/UDP......,raw packets, and host metrics.
 - **Superior Security:** Fully silent deployment, with no interference to business, hosts, or cloud networks.
 
 
 
-## 💡 Benefits
+## 💡 Adaptation platform
 
-1. **Deploy in Seconds**: One version fits all major Linux distros. No dependencies, no hassle.
-2. **Zero Impact Observability**: Deep insights without affecting your production environment.
-3. **Open data structure**: Encapsulated with JSON UDP, quickly adapted to ELK/ES, Splunk， Graylog， OpenSearch; AWS Cloudwatch/Log, AZURE Monitor/Log Analytics; Datadog/Log Management, New Relic/Logs; SOC-based platforms, Wazuh, QRadar, etc...
+- ELK/ES, Splunk, Graylog, OpenSearch; 
+- AWS Cloudwatch/Log, AZURE Monitor/Log Analytics; Datadog/Log Management, New Relic/Logs; 
+- SOC/XDR platforms, Wazuh, QRadar, etc...
 
 
 
@@ -47,11 +49,10 @@
 
 ## 🚦 Simplified Deployment
 
-1. Linux X86
-2. Windows
-3. Docker
-4. K8S
-5. Linux ARM
+1. [Linux]: https://github.com/Microflow-IO/microflow-nano/tree/main/linux
+2. [Windows]: https://github.com/Microflow-IO/microflow-nano/tree/main/windows
+3. [Docker]: https://github.com/Microflow-IO/microflow-nano/tree/main/docker
+5. ARM86
 
   
 
@@ -78,7 +79,7 @@ We have built a demo using Graylog to help you understand the powerful capabilit
 ## 🏆 Battle-Tested Reliability
 
 - Developed since 2019, now in version 4.0
-- Deployed on 1000+ IaaS hosts and 10,000+ PaaS VMs/K8S nodes
+- Deployed on 1000+ IaaS Server and 18,000+ PaaS VMs/K8S nodes
 
 
 
@@ -93,7 +94,7 @@ We have built a demo using Graylog to help you understand the powerful capabilit
 
 
 
-
+------
 
 **www.microflow.io**
 
@@ -102,7 +103,3 @@ We have built a demo using Graylog to help you understand the powerful capabilit
 **07/23/2023**
 
 
-
----
-
-*Microflow Sentinel: Bridging the critical gap in cloud infrastructure data capabilities. Join us in this transformative journey and witness the magic of our 500KB marvel!*
