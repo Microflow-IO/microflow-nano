@@ -8,6 +8,8 @@
   
 
 
+
+
 [TOC]
 
 ------
@@ -32,71 +34,6 @@
 - **Puzzlement:** On the one hand, under cloud and cloud-native architectures, workloads are more flexible and computing resources are more sensitive;  on the other hand, real-time parsing of data packets and outputting fine-grained traffic logs require more resources;
 - **Question:** How can we generate fine-grained traffic logs without increasing resources?
 - **Solution:** Nano, with its excellent architectural design and coding capabilities, perfectly resolves the aforementioned contradictions and demands.
-
-
-
-## Main functions of Nano
-
-The functional groups of Nano are divided into two categories: one is host traffic analysis; The second is packet forwarding.
-
-**Function group 1: Host traffic analysis and output**
-
-```mermaid
-graph LR;
-
-    subgraph HOST
-        A[vNIC/NIC]
-        B[Nano Probe]
-    end
-    
-    A-..->|Packet|B
-    B-..->|Push Log & KPIs over UDP|C[Logstash/Fluentd]
-    C-..->D[Server]
-```
-
-```mermaid
-graph LR;
-
-    subgraph HOST
-        A[vNIC/NIC]
-        B[Nano Probe]
-        C[Log Files]
-        D[Log Collector]
-    end
-    
-    A-.->|Packet|B
-    B-.->|Granular traffic log & KPIs|C
-    C-.->D
-    D-..->E[Server]
-```
-
-**Function group 2: Packet forward and PCAP Replay**
-
-```mermaid
-graph LR;
-
-    subgraph HOST
-        A[vNIC/NIC]
-        B[Nano Probe]
-    end
-    
-    A-...->|Packet|B
-    B-...->|Real Time Forward Packet|C[Server/Packet Analyzer]
-```
-
-```mermaid
-graph LR;
-
-    subgraph HOST
-        A[vNIC/NIC]
-        B[Nano Probe]
-        C[PCAP FIFO]
-    end
-    
-    A-..->|Packet|B
-    B-..->C
-    C-...->|Replay PCAP|E[Server/Packet Analyzer]
-```
 
 
 
@@ -131,7 +68,7 @@ By integrating with various log analysis platforms, observability solutions, and
 
 ## What data and KPIs can Nano output?
 
-Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/Nano_Outpu_List.md)**".
+Please refer to another .md document, "**[Nano Output List](https://github.com/Microflow-IO/microflow-nano/blob/main/docs/Nano_Output_List.md)**".
 
 
 
