@@ -49,9 +49,9 @@
 
 ## 🚦 Simplified Deployment
 
-1. [Linux]: https://github.com/Microflow-IO/microflow-nano/tree/main/linux
-2. [Windows]: https://github.com/Microflow-IO/microflow-nano/tree/main/windows
-3. [Docker]: https://github.com/Microflow-IO/microflow-nano/tree/main/docker
+1. [Linux](https://github.com/Microflow-IO/microflow-nano/tree/main/linux)
+2. [Windows](https://github.com/Microflow-IO/microflow-nano/tree/main/windows)
+3. [Docker](https://github.com/Microflow-IO/microflow-nano/tree/main/docker)
 5. ARM86
 
   
