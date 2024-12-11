@@ -18,8 +18,11 @@ PS D:\test\mfnano> dir
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 d-----         2024/12/1     10:14                tmp
+-a----         2024/12/2     20:48           4482 autoupdate.ps1
+-a----         2024/12/1     10:54            141 mfnano-conf.ps1
 -a----        2024/11/15     15:15         663197 mfnano-worker.exe
--a----        2024/11/15     20:14           9549 mfnano-worker.ps1
+-a----        2024/12/10     21:19           9413 mfnano-worker.ps1
+-a----        2024/12/10     21:19           3197 mfnano.ps1
 -a----         2024/7/12     11:25        1162272 npcap-1.79.exe
 -a----        2024/11/13     16:54         915128 WinPcap_4_1_3.exe
 
