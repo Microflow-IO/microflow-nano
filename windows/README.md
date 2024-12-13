@@ -13,7 +13,7 @@ Download mfnano from Github and place it in a non root directory on any disk:
 ```powershell
 PS D:\test\mfnano> dir
 
-    目录: D:\test\mfnano
+    Directory: D:\test\mfnano
 
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
