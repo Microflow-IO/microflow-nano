@@ -102,6 +102,7 @@ while ($true) {
     }
   }
   if (!$found) {
+    Unblock-File -Path "$lps1_file"
     & powershell.exe -File "$lps1_file" "$uniserver" "$token"
     Write-Output "$lps1_file started." >> tmp/autoupdate-ps1.log
   } else {

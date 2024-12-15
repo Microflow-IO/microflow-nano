@@ -6,6 +6,7 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal $identity
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){
   Write-Output "This script requires administrator privileges"
+  Read-Host -Prompt "Press any key to exit the script ..."
   exit 1
 }
 
@@ -61,5 +62,6 @@ if ($tmpstr -ne $null -and $tmpstr -ne "") {
 
 Write-Host "##############Start autoupdate.ps1 ... ################-"
 Start-Sleep -Seconds 5
+Unblock-File -Path autoupdate.ps1
 Start-Process powershell -ArgumentList "-NoProfile -File `"$scriptPath`"" -WindowStyle Hidden
 Read-Host -Prompt "Press any key to continue ..."
