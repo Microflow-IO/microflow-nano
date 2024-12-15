@@ -53,8 +53,9 @@ probe-id=E40D3662F23C
 PS D:\test\mfnano>
 ```
 
-To access the platform, visit https://demo.microflow.io in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:E40D3662F23C** to see your traffic logs.
-![image](https://github.com/user-attachments/assets/c71552f1-c291-495c-b155-1841fa845d7d)
+To access the platform, visit https://demo.microflow.io in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:45701902147155360** to see your traffic logs.
+![image](https://github.com/user-attachments/assets/bd2e35e3-d4fb-4dc1-902d-2f8335e1963b)
+
 
 
 
