@@ -7,10 +7,9 @@
 
   
 
+* Contents  
+{:toc}
 
-
-* Content
-[TOC]
 
 ------
 
