@@ -98,7 +98,7 @@ For commercial key accounts, Nano will charge an appropriate cost, but it will b
 
 For the free version, users can communicate through GitHub issues;  we will respond as promptly as possible;
 
-For the commercial version, users can contact us via email (service@microflow.io). Typically, we will respond within a maximum of four hours and provide an estimated time for addressing potential program bugs.
+For the commercial version, users can contact us via email (microflow.io@gmail.com). Typically, we will respond within a maximum of four hours and provide an estimated time for addressing potential program bugs.
 
 
 
