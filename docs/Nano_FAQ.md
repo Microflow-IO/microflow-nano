@@ -2,9 +2,7 @@
 
   
 
-<h1 style="font-size: 30px;">MicroFlow Nano</h1>  
-<h2 style="font-size: 50px;">FAQ</h2>
-
+<h1 style="font-size: 40px;">MicroFlow Nano-FAQ</h1>  
 
 
 - [🎏Project Overview](#--project-overview)
