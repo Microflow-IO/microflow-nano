@@ -251,7 +251,7 @@ graph LR;
 
 ## Can Nano parse HTTPS?
 
-- High version Nano can parse SSL/TLS plaintext without a CA certificate; But only limited to Linux-64; Windows does not support;
+- High version Nano can parse SSL/TLS plaintext without a CA certificate; But it needs to be higher than Kernel 4.14; Windows does not support;
 - Low version Nano does not support parsing encrypted traffic; However, in most cases, this does not affect Nano from achieving its intended value! Because the actual deployment location of Nano in production environments is usually before loading HTTPS or after unloading HTTPS; In other words, in most cases, where Nano is deployed, HTTPS is not the primary traffic, so there is no need to worry about the encryption and decryption issues of HTTPS.
 
 
@@ -267,7 +267,7 @@ graph LR;
 Under 99% of the working conditions, Nano can operate solely with the remaining computing power resources of the host; the following parameters are for reference only;
 
 - Nano parses 1Gbps network traffic in real-time and outputs TCP/UDP quadruples and KPIs, while only consuming 5% of  vCPU and 110MB of memory;
-- Nano can parse 1000 concurrent HTTP sessions in real time, outputting HTTP/REQ/RSP/Header/Body, as well as KPIs, while only consuming 10% of vCPU and 110MB of memory;
+- Nano can parse 100/200/1000 concurrent HTTP sessions in real time, outputting HTTP/REQ/RSP/Header/Body, as well as KPIs, while only consuming 3%/4%/10% of vCPU and 100MB of memory;
 - In extreme cases, when CPU usage exceeds 20% of one vCPU, Nano will initiate a throttling algorithm to reduce CPU overhead and avoid affecting the operation of other programs;
 - Storage requirements?  If the user does not store JSON or PCAP files locally on the host, there is no need to consider the storage overhead of the program itself.
 
