@@ -22,9 +22,9 @@
 [Solution Integration](https://microflow-io.github.io/docs/faq/nano-faq-solution-integration.html)
 
 - [🎏Project Overview](#--project-overview)
-  * [What is Microflow Nano?](#what-is-microflow-nano-)
-  * [What problem does Nano solve?](#what-problem-does-nano-solve-)
-  * [What application scenarios can be realized by adopting Nano?](#what-application-scenarios-can-be-realized-by-adopting-nano-)
+  * [What is Microflow Nano?](#what-is-microflow-nano)
+  * [What problem does Nano solve?](#what-problem-does-nano-solve)
+  * [What application scenarios can be realized by adopting Nano?](#what-application-scenarios-can-be-realized-by-adopting-nano)
   * [Technical highlights of Nano](#technical-highlights-of-nano)
   * [What data and KPIs can Nano output?](#what-data-and-kpis-can-nano-output-)
   * [Is there an online demo](#is-there-an-online-demo)
