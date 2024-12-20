@@ -66,7 +66,7 @@
 
 We have built a demo using Graylog to help you understand the powerful capabilities of Nano. We are very grateful to Graylog.
 
-[Demo](https://demo.microflow.io/)	Login：guest	PS：mfnano@2024
+[Demo](http://223.223.184.202:9000/)	Login：guest	PS：mfnano@2024
 
  
 
