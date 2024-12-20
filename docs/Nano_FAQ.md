@@ -10,10 +10,15 @@
 {:toc}
 
 [Product Overview](https://microflow-io.github.io/docs/faq/nano-faq-project-overview.html)
+
 [Nano and AI](https://microflow-io.github.io/docs/faq/nano-faq-ai.html)
+
 [Safety Related](https://microflow-io.github.io/docs/faq/nano-faq-safety-related.html)
+
 [Performance and Consumption](https://microflow-io.github.io/docs/faq/nano-faq-performance-consumption.html)
+
 [Before deployment](https://microflow-io.github.io/docs/faq/nano-faq-before-deployment.html)
+
 [Solution Integration](https://microflow-io.github.io/docs/faq/nano-faq-solution-integration.html)
 
 ------
