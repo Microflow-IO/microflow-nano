@@ -15,7 +15,8 @@
 
 ## 🎬Brief Introduction
 
-- Nano is a cross-architecture basic data capability; **it is a host-based**, ultra-high-performance, fine-grained, multi-dimensional traffic log acquisition tool that simultaneously provides real-time packet forwarding and PCAP playback.
+- Nano is a cross-architecture basic data capability.
+- Nano is a host-based, high-performance, fine-grained, multi-dimensional traffic analyze tool, providing L4~L7 log output, real-time packet forwarding, and PCAP playback.
 - Nano is designed according to commercial product standards, featuring large-scale deployment and 24/7/365 operation capabilities, and has successfully deployed **over 18,000 VMs and K8S-nodes**.
 - Nano is a type of DaaS tool, and various data analysis platforms can realize rich cloud network security, data security, and performance monitoring scenarios through Nano data.
 
