@@ -13,7 +13,8 @@ Microflow-nano (mfnano) is a lightweight data flow processing engine designed fo
 Use follow yaml will create daemonset pod with host network, mfnano will analy node traffic
 
 ```bash
-root@graylog:/opt# docker load -i microflow-mfnano-1.0.tar 
+root@graylog:/opt# wget https://raw.githubusercontent.com/Microflow-IO/microflow-nano/refs/heads/main/mfnano-k8s.yml
+root@graylog:/opt# kubectl apply -f mfnano-k8s.yml
 ```
 
 By default TOKEN and HTTP_SERVER will connect http://demo.microflow.io:9000 (graylog platfrom)
