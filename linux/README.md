@@ -42,7 +42,7 @@ With this configuration, `mfnano` will send traffic logs to demo.microflow.io on
 probe-id=37403430542246
 ```
 
-To access the platform, visit https://demo.microflow.io in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:37403430542246** to see your traffic logs.
+To access the platform, visit http://demo.microflow.io:9000 in your browser. Login with the username `admin` and password `admin@123`. Search for the probe ID using the filter: **gl2_source_collector:37403430542246** to see your traffic logs.
 ![image-20241128145259754](https://github.com/user-attachments/assets/f305c7b9-72ef-40d6-b3cd-ab8b21b659bf)
 
 ## Configuration Guide
